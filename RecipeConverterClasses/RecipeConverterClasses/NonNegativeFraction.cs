@@ -70,6 +70,11 @@ namespace RecipeConverterClasses
             }
         }
 
+        public static  NonNegativeFraction operator +(NonNegativeFraction fraction1, Fraction fraction2)
+        {
+            return new NonNegativeFraction(1, 2);
+           
+        }
         /// <summary>
         /// The Add method adds a Fraction to the NonNegativeFraction
         /// If the passed Fraction would cause the NonNegativeFraction to be negative, throws an ArgumentOutOfRangeException
