@@ -75,9 +75,10 @@ namespace RecipeConverterClasses
 
         public static  Fraction operator +(Fraction fraction1, Fraction fraction2)
         {
-            SetToCommonDenominators(fraction1, fraction2);
-            fraction1.Numerator += fraction2.Numerator;
-            return fraction1;
+            Fraction fraction = fraction1.Copy();
+            SetToCommonDenominators(fraction, fraction2);
+            fraction.Numerator += fraction2.Numerator;
+            return fraction;
         }
         public static Fraction operator +(Fraction fraction, int integer)
         {
