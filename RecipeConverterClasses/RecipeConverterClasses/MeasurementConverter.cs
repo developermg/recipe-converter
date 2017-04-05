@@ -16,11 +16,11 @@ namespace RecipeConverterClasses
         private const string FRACTION_PATTERN = @"(?:" + UNICODE_FRACTION_PATTERN + @"|" + SLASH_FRACTION_PATTERN + @")";
         private const string NUMBER_PATTERN= "(?:" + FRACTION_PATTERN + @"|(?:" + INTEGER_PATTERN + @"(?:\s*)" + FRACTION_PATTERN + @")|" + INTEGER_PATTERN + ")";
 
-        private static string EndOfUnitPattern = @"(?i)(\s+|%)";
+        private static string EndOfUnitPattern = @"(?i)(?:\s+|%)";
         private static string SPattern=@"(?:\(s\)|s?)";
         private static string CupPattern = $@"(?i)(?:(?:cup{SPattern})|c){EndOfUnitPattern}";
-        private static string TbspPattern = $@"(?i)(?:(?:tablespoon{SPattern})|(tbsp{SPattern})|((?-i)T)){EndOfUnitPattern}"; 
-        private static string TspPattern = $@"(?i)(?:(?:teaspoon{SPattern})|(?:tsp{SPattern})|((?-i)t)){EndOfUnitPattern}"; 
+        private static string TbspPattern = $@"(?i)(?:(?:tablespoon{SPattern})|(tbsp{SPattern})|(?:(?-i)T)){EndOfUnitPattern}"; 
+        private static string TspPattern = $@"(?i)(?:(?:teaspoon{SPattern})|(?:tsp{SPattern})|(?:(?-i)t)){EndOfUnitPattern}"; 
         private static string OtherIngPattern = $@"(?:(?!(?:TABLESPOON|TEASPOON|CUP){SPattern})(?<word>\w))";
 
         private string PATTERN = $@"{NUMBER_PATTERN}\s(?<unit>{CupPattern}|{TbspPattern}|{TspPattern}|{OtherIngPattern})";
