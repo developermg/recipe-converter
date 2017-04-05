@@ -9,7 +9,6 @@ namespace RecipeConverterClasses
 {
     public class MeasurementConverter
     {
-        //private const string CUP_PATTERN = @"\p{Nd} (?i)(cup((\(s\))|s?)) \w";
         private const string INTEGER_PATTERN = @"(\d+)";
         private const string SLASH_FRACTION_PATTERN = @"(?:" + INTEGER_PATTERN + @"/" + INTEGER_PATTERN + @")";
         private const string UNICODE_FRACTION_PATTERN = @"([\u00BC-\u00BE]|[\u2150-\u215E])";
