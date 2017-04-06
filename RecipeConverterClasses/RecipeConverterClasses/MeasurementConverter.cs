@@ -9,16 +9,17 @@ namespace RecipeConverterClasses
 {
     public class MeasurementConverter
     {
-        private const string INTEGER_PATTERN = @"(\d+)";
-        private const string SLASH_FRACTION_PATTERN = @"(?:" + INTEGER_PATTERN + @"/" + INTEGER_PATTERN + @")";
-        private const string UNICODE_FRACTION_PATTERN = @"([\u00BC-\u00BE]|[\u2150-\u215E])";
-        private const string FRACTION_PATTERN = @"(?:" + UNICODE_FRACTION_PATTERN + @"|" + SLASH_FRACTION_PATTERN + @")";
-        private const string NUMBER_PATTERN= "(?:" + FRACTION_PATTERN + @"|(?:" + INTEGER_PATTERN + @"(?:\s*)" + FRACTION_PATTERN + @")|" + INTEGER_PATTERN + ")";
+        private const string INTEGER_PATTERN = @"(?<integer>\d+)";
+        private const string SLASH_FRACTION_PATTERN = @"(?<slash_fraction>" + INTEGER_PATTERN + @"/" + INTEGER_PATTERN + @")";
+        private const string UNICODE_FRACTION_PATTERN = @"(?<unicode_fraction>[\u00BC-\u00BE]|[\u2150-\u215E])";
+        private const string FRACTION_PATTERN = @"(?<fraction>" + UNICODE_FRACTION_PATTERN + @"|" + SLASH_FRACTION_PATTERN + @")";
+        private const string MIXED_FRACTION_PATTERN = "(?<mixed_fraction>"+INTEGER_PATTERN + @"(?:\s*)" + FRACTION_PATTERN + ")";
+        private const string NUMBER_PATTERN= "(?<number>" + MIXED_FRACTION_PATTERN + @"|(?:" + FRACTION_PATTERN + @")|" + INTEGER_PATTERN + ")";
 
         private static string EndOfUnitPattern = @"(?i)(?:\s+|%)";
         private static string SPattern=@"(?:\(s\)|s?)";
         private static string CupPattern = $@"(?i)(?:(?:cup{SPattern})|c){EndOfUnitPattern}";
-        private static string TbspPattern = $@"(?i)(?:(?:tablespoon{SPattern})|(tbsp{SPattern})|(?:(?-i)T)){EndOfUnitPattern}"; 
+        private static string TbspPattern = $@"(?i)(?:(?:tablespoon{SPattern})|(?:tbsp{SPattern})|(?:(?-i)T)){EndOfUnitPattern}"; 
         private static string TspPattern = $@"(?i)(?:(?:teaspoon{SPattern})|(?:tsp{SPattern})|(?:(?-i)t)){EndOfUnitPattern}"; 
         private static string OtherIngPattern = $@"(?:(?!(?:TABLESPOON|TEASPOON|CUP){SPattern})(?<word>\w))";
 
@@ -101,45 +102,49 @@ namespace RecipeConverterClasses
         }
         private static RecipeFraction GetFractionFromMatch(Match match)
         {
-            int justIntGroup = 8;
-            int justFractionUnicodeGroup = 1;
-            int mixedInt = 4;
-            int mixedUnicodeFraction = 5;
-            int justFractionNum = 2;
-            int justFractionDen = 3;
-            int mixedFractionNum = 6;
-            int mixedFractionDen = 7;
-            RecipeFraction fraction;
-            //check if just an integer
-            if (match.Groups[justIntGroup].Value != "")
+            if (match.Groups["mixed_fraction"].Success)
             {
-                fraction = new RecipeFraction(Convert.ToInt32(match.Groups[justIntGroup].Value), 1);
+                return GetMixedFractionAsFraction(match);
             }
-            //otherwise if it is just a unicode fraction
-            else if (match.Groups[justFractionUnicodeGroup].Value != "")
+            else if (match.Groups["fraction"].Success) 
             {
-                fraction = GetFractionFromUnicode(match.Groups[justFractionUnicodeGroup].Value);
+                return GetFractionAsFraction(match);
             }
-            //otherwise if just manual fraction
-            else if (match.Groups[justFractionNum].Value != "")
-            {
-                fraction = new RecipeFraction(Convert.ToInt32(match.Groups[justFractionNum].Value), Convert.ToInt32(match.Groups[justFractionDen].Value));
-            }
-            //otherwise it is a mixed group
             else
             {
-                if (match.Groups[mixedUnicodeFraction].Value != "")
-                {
-                    fraction = GetFractionFromUnicode(match.Groups[mixedUnicodeFraction].Value);
-                }
-                else
-                {
-                    fraction = new RecipeFraction(Convert.ToInt32(match.Groups[mixedFractionNum].Value), Convert.ToInt32(match.Groups[mixedFractionDen].Value));
-                }
+                return GetIntegerAsFraction(match);
+            }
+     
+            
+        }
 
-                fraction.Add(Convert.ToInt32(match.Groups[mixedInt].Value));
+        private static RecipeFraction GetMixedFractionAsFraction(Match match)
+        {
+            RecipeFraction fraction = GetFractionAsFraction(match,1);
+
+            fraction.Add(Convert.ToInt32(match.Groups["integer"].Captures[0].Value));
+            return fraction;
+        }
+
+        private static RecipeFraction GetFractionAsFraction(Match match, int numeratorIndex=0)
+        {
+            GroupCollection groups = match.Groups;
+            RecipeFraction fraction;
+            CaptureCollection integers = groups["integer"].Captures;
+            if (groups["unicode_fraction"].Success)
+            {
+                fraction = GetFractionFromUnicode(groups["unicode_fraction"].Value);
+            }
+            else
+            {
+                fraction = new RecipeFraction(Convert.ToInt32(integers[numeratorIndex].Value), Convert.ToInt32(integers[numeratorIndex+1].Value));
             }
             return fraction;
+        }
+
+        private static RecipeFraction GetIntegerAsFraction(Match match)
+        {
+            return new RecipeFraction(Convert.ToInt32(match.Groups["integer"].Value), 1);
         }
 
         private static RecipeFraction GetFractionFromUnicode(string value)
