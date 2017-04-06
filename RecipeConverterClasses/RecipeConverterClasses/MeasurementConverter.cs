@@ -13,21 +13,22 @@ namespace RecipeConverterClasses
         private const string SLASH_FRACTION_PATTERN = @"(?<slash_fraction>" + INTEGER_PATTERN + @"/" + INTEGER_PATTERN + @")";
         private const string UNICODE_FRACTION_PATTERN = @"(?<unicode_fraction>[\u00BC-\u00BE]|[\u2150-\u215E])";
         private const string FRACTION_PATTERN = @"(?<fraction>" + UNICODE_FRACTION_PATTERN + @"|" + SLASH_FRACTION_PATTERN + @")";
-        private const string MIXED_FRACTION_PATTERN = "(?<mixed_fraction>"+INTEGER_PATTERN + @"(?:\s*)" + FRACTION_PATTERN + ")";
-        private const string NUMBER_PATTERN= "(?<number>" + MIXED_FRACTION_PATTERN + @"|(?:" + FRACTION_PATTERN + @")|" + INTEGER_PATTERN + ")";
+        private const string MIXED_FRACTION_PATTERN = "(?<mixed_fraction>" + INTEGER_PATTERN + @"(?:\s*)" + FRACTION_PATTERN + ")";
+        private const string RANGE_PATTERN = "(?<range>" + NUMBER_PATTERN + @"(\s*)-(\s*)" + NUMBER_PATTERN + ")";
+        private const string NUMBER_PATTERN = "(?<number>" + MIXED_FRACTION_PATTERN + @"|" + FRACTION_PATTERN + @"|" + INTEGER_PATTERN + ")";
 
         private static string EndOfUnitPattern = @"(?i)(?:\s+|%)";
-        private static string SPattern=@"(?:\(s\)|s?)";
+        private static string SPattern = @"(?:\(s\)|s?)";
         private static string CupPattern = $@"(?i)(?:(?:cup{SPattern})|c){EndOfUnitPattern}";
-        private static string TbspPattern = $@"(?i)(?:(?:tablespoon{SPattern})|(?:tbsp{SPattern})|(?:(?-i)T)){EndOfUnitPattern}"; 
-        private static string TspPattern = $@"(?i)(?:(?:teaspoon{SPattern})|(?:tsp{SPattern})|(?:(?-i)t)){EndOfUnitPattern}"; 
+        private static string TbspPattern = $@"(?i)(?:(?:tablespoon{SPattern})|(?:tbsp{SPattern})|(?:(?-i)T)){EndOfUnitPattern}";
+        private static string TspPattern = $@"(?i)(?:(?:teaspoon{SPattern})|(?:tsp{SPattern})|(?:(?-i)t)){EndOfUnitPattern}";
         private static string OtherIngPattern = $@"(?:(?!(?:TABLESPOON|TEASPOON|CUP){SPattern})(?<word>\w))";
 
-        private string PATTERN = $@"{NUMBER_PATTERN}\s(?<unit>{CupPattern}|{TbspPattern}|{TspPattern}|{OtherIngPattern})";
+        private string PATTERN = $@"(?:{RANGE_PATTERN}|{NUMBER_PATTERN})\s(?<unit>{CupPattern}|{TbspPattern}|{TspPattern}|{OtherIngPattern})";
         // private const string OTHER_ING_PATTERN = NUMBER_PATTERN_STRING + @"\w+");
         private string text;
         private NonNegativeFraction multiplier;
-        
+
 
         public MeasurementConverter(string text, NonNegativeFraction multiplier)
         {
@@ -47,13 +48,25 @@ namespace RecipeConverterClasses
             //text=Regex.Replace(text, TBSP_PATTERN, m => Replace(m, Unit.TABLESPOON));
             //text=Regex.Replace(text, TSP_PATTERN, m => Replace(m, Unit.TEASPOON));
             //text = Regex.Replace(text, OTHER_ING_PATTERN, m => ReplaceOther(m, Unit.OTHER));
-            return "\u2022" + " "+ text;
+            return "\u2022" + " " + text;
 
         }
 
         private string Replace(Match match)
         {
+            Unit unit = GetUnitFromMatch(match);
+            string replacement = Replace(match, unit) + " ";
+            if (unit == Unit.OTHER)
+            {
+                replacement += match.Groups["word"];
+            }
+            return replacement;
+        }
+
+        private static Unit GetUnitFromMatch(Match match)
+        {
             string unitText = match.Groups["unit"].Value;
+
             Unit unit;
             Match unitMatch = Regex.Match(unitText, CupPattern);
             if (unitMatch.Success)
@@ -80,25 +93,30 @@ namespace RecipeConverterClasses
                     }
                 }
             }
-            string replacement = Replace(match, unit)+" ";
-            if (unit == Unit.OTHER)
-            {
-                replacement+= match.Groups["word"];
-            }
-            return replacement;  
+            return unit;
         }
+
         private string ReplaceOther(Match match, Unit unit)
         {
-            return Replace(match, unit) + " " +match.Groups["word"];
+            return Replace(match, unit) + " " + match.Groups["word"];
         }
         private string Replace(Match match, Unit unit)
         {
-            RecipeFraction fraction = GetFractionFromMatch(match);
-            fraction.MultiplyBy(multiplier);
-            Measurement measurement = new Measurement(fraction, unit);
-            ICollection<Measurement> measurements = measurement.UserFriendlyMeasurements();
-            string replacement = String.Join(" + ", measurements.Select(i => i.ToHTMLFormattedString()));
-            return replacement;
+            if (Regex.Match(match.Value, RANGE_PATTERN).Success)
+            {
+                //replace 2 parts of it
+                return "RANGE FOUND";
+            }
+            else
+            {
+                RecipeFraction fraction = GetFractionFromMatch(match);
+                fraction.MultiplyBy(multiplier);
+                Measurement measurement = new Measurement(fraction, unit);
+                ICollection<Measurement> measurements = measurement.UserFriendlyMeasurements();
+                string replacement = String.Join(" + ", measurements.Select(i => i.ToHTMLFormattedString()));
+                return replacement;
+            }
+           
         }
         private static RecipeFraction GetFractionFromMatch(Match match)
         {
@@ -106,7 +124,7 @@ namespace RecipeConverterClasses
             {
                 return GetMixedFractionAsFraction(match);
             }
-            else if (match.Groups["fraction"].Success) 
+            else if (match.Groups["fraction"].Success)
             {
                 return GetFractionAsFraction(match);
             }
@@ -114,19 +132,19 @@ namespace RecipeConverterClasses
             {
                 return GetIntegerAsFraction(match);
             }
-     
-            
+
+
         }
 
         private static RecipeFraction GetMixedFractionAsFraction(Match match)
         {
-            RecipeFraction fraction = GetFractionAsFraction(match,1);
+            RecipeFraction fraction = GetFractionAsFraction(match, 1);
 
             fraction.Add(Convert.ToInt32(match.Groups["integer"].Captures[0].Value));
             return fraction;
         }
 
-        private static RecipeFraction GetFractionAsFraction(Match match, int numeratorIndex=0)
+        private static RecipeFraction GetFractionAsFraction(Match match, int numeratorIndex = 0)
         {
             GroupCollection groups = match.Groups;
             RecipeFraction fraction;
@@ -137,7 +155,7 @@ namespace RecipeConverterClasses
             }
             else
             {
-                fraction = new RecipeFraction(Convert.ToInt32(integers[numeratorIndex].Value), Convert.ToInt32(integers[numeratorIndex+1].Value));
+                fraction = new RecipeFraction(Convert.ToInt32(integers[numeratorIndex].Value), Convert.ToInt32(integers[numeratorIndex + 1].Value));
             }
             return fraction;
         }

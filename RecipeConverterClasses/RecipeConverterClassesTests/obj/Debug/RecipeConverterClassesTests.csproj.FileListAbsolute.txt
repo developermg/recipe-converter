@@ -39,11 +39,3 @@ C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClasses\Re
 C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClasses\RecipeConverterClassesTests\obj\Debug\RecipeConverterClassesTests.csprojResolveAssemblyReference.cache
 C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClasses\RecipeConverterClassesTests\obj\Debug\RecipeConverterClassesTests.dll
 C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClasses\RecipeConverterClassesTests\obj\Debug\RecipeConverterClassesTests.pdb
-C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClassesTests\bin\Debug\RecipeConverterClassesTests.dll
-C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClassesTests\bin\Debug\RecipeConverterClassesTests.pdb
-C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClassesTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
-C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClassesTests\bin\Debug\RecipeConverterClasses.dll
-C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClassesTests\bin\Debug\RecipeConverterClasses.pdb
-C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClassesTests\obj\Debug\RecipeConverterClassesTests.csprojResolveAssemblyReference.cache
-C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClassesTests\obj\Debug\RecipeConverterClassesTests.dll
-C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClassesTests\obj\Debug\RecipeConverterClassesTests.pdb
