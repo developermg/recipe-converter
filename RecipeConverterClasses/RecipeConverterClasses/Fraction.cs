@@ -67,7 +67,7 @@ namespace RecipeConverterClasses
         ///Add the passed fraction to this fraction 
         /// </summary>
         /// <param name="fraction"></param>
-        public virtual void Add(Fraction fraction)
+        protected virtual void Add(Fraction fraction)
         {
             SetToCommonDenominators(this, fraction);
             Numerator += fraction.Numerator;
@@ -75,31 +75,46 @@ namespace RecipeConverterClasses
 
         public static  Fraction operator +(Fraction fraction1, Fraction fraction2)
         {
-            Fraction fraction = fraction1.Copy();
-            SetToCommonDenominators(fraction, fraction2);
-            fraction.Numerator += fraction2.Numerator;
-            return fraction;
+
+            Fraction fracCopy = fraction1.Copy();
+            fracCopy.Add(fraction2);
+            return fracCopy;
         }
-        public static Fraction operator +(Fraction fraction, int integer)
+        public static Fraction operator +(Fraction fraction, int num)
         {
-            fraction.Numerator += integer * fraction.Denominator;
-            return fraction;
+            Fraction fracCopy = fraction.Copy();
+            fracCopy.Add(num);
+            return fracCopy;
+        }
+
+        public static Fraction operator -(Fraction fraction1, Fraction fraction2)
+        {
+            Fraction fracCopy = fraction1.Copy();
+            fracCopy.Subtract(fraction2);
+            return fracCopy;
+        }
+
+        public static Fraction operator -(Fraction fraction, int num)
+        {
+            Fraction fracCopy = fraction.Copy();
+            fracCopy.Subtract(num);
+            return fracCopy;
         }
 
         /// <summary>
         /// Add an integer to the fraction
         /// </summary>
         /// <param name="num">Integer to add to the fraction</param>
-        public virtual void Add(int num)
+        protected virtual void Add(int num)
         {
-            Add(new Fraction(num, 1));
+            Numerator += num * Denominator;
         }
 
         /// <summary>
         /// Subtract the passed fraction to this fraction
         /// </summary>
         /// <param name="fraction">Fraction to subtract from this fraction</param>
-        public virtual void Subtract(Fraction fraction)
+        protected virtual void Subtract(Fraction fraction)
         {
             fraction = fraction.Copy();
             fraction.Numerator *= -1;
@@ -111,9 +126,10 @@ namespace RecipeConverterClasses
         /// Overloaded Subtact method allows for subtraction by integers
         /// </summary>
         /// <param name="num">Integer to subtract from fraction</param>
-        public virtual void Subtract(int num)
+        protected virtual void Subtract(int num)
         {
-            Add(new Fraction((num * -1), 1));
+            num *= -1;
+            Add(num);
         }
 
         /// <summary>

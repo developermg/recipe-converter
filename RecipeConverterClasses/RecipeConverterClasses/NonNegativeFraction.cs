@@ -71,22 +71,45 @@ namespace RecipeConverterClasses
         }
 
         public static  NonNegativeFraction operator +(NonNegativeFraction fraction1, Fraction fraction2)
-        {
-            return new NonNegativeFraction(1, 2);
+        { 
+            NonNegativeFraction fracCopy = fraction1.Copy();
+            fracCopy.Add(fraction2);
+            return fracCopy;
            
+        }
+
+        public static NonNegativeFraction operator +(NonNegativeFraction fraction, int num)
+        {
+            NonNegativeFraction fracCopy = fraction.Copy();
+            fracCopy.Add(num);
+            return fracCopy;
+        }
+
+        public static NonNegativeFraction operator -(NonNegativeFraction fraction1, NonNegativeFraction fraction2)
+        {
+            NonNegativeFraction fracCopy = fraction1.Copy();
+            fracCopy.Add(fraction2);
+            return fracCopy;
+        }
+
+        public static NonNegativeFraction operator -(NonNegativeFraction fraction, int num)
+        {
+            NonNegativeFraction fracCopy = fraction.Copy();
+            fraction.Add(fraction);
+            return fraction;
         }
         /// <summary>
         /// The Add method adds a Fraction to the NonNegativeFraction
         /// If the passed Fraction would cause the NonNegativeFraction to be negative, throws an ArgumentOutOfRangeException
         /// </summary>
         /// <param name="fraction">Fraction to add</param>
-        public override void Add(Fraction fraction)
+        protected override void Add(Fraction fraction)
         {
             //if the fraction is less than zero, checks if it will cause the 
             if (fraction.CompareTo(0) < 0)
             {
-                Fraction checkingFrction = new Fraction(Numerator, Denominator);
-                checkingFrction+=(fraction.Copy());
+                Fraction checkingFrction = Copy();
+                checkingFrction+=fraction;
                 if (checkingFrction.CompareTo(0) < 0)
                 {
                     throw new ArgumentOutOfRangeException("fraction", "Argument cannot make NonNegativeFraction negative.");
@@ -101,9 +124,19 @@ namespace RecipeConverterClasses
         /// If the passed integer would cause the NonNegativeFraction to be negative, throws an ArgumentOutOfRangeException
         /// </summary>
         /// <param name="num">Integer to add to NonNegativeFraction</param>
-        public override void Add(int num)
+        protected override void Add(int num)
         {
-            Add(new Fraction(num, 1));
+            if (num < 0)
+            {
+                Fraction checkingFrction = Copy();
+                checkingFrction += num;
+                if (checkingFrction.CompareTo(0) < 0)
+                {
+                    throw new ArgumentOutOfRangeException("fraction", "Argument cannot make NonNegativeFraction negative.");
+                }
+            }
+                base.Add(num);
+            
         }
 
         /// <summary>
@@ -111,7 +144,7 @@ namespace RecipeConverterClasses
         /// If the passed Fraction would cause the NonNegativeFraction to be negative, throws an ArgumentOutOfRangeException
         /// </summary>
         /// <param name="fraction">Fraction to subtract</param>
-        public override void Subtract(Fraction fraction)
+        protected override void Subtract(Fraction fraction)
         {
             fraction = fraction.Copy();
             fraction.MultiplyBy(-1);
@@ -123,7 +156,7 @@ namespace RecipeConverterClasses
         /// If the passed integer would cause the NonNegativeFraction to be negative, throws an ArgumentOutOfRangeException
         /// </summary>
         /// <param name="num">Integer to subtract</param>
-        public override void Subtract(int num)
+        protected override void Subtract(int num)
         {
             Add(num * -1);
         }
