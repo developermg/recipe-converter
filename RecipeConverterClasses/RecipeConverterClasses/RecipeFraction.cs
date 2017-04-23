@@ -76,7 +76,32 @@ namespace RecipeConverterClasses
             return new RecipeFraction(Numerator, Denominator);
         }
 
-     
 
+        public static RecipeFraction operator +(RecipeFraction fraction1, Fraction fraction2)
+        {
+            RecipeFraction fracCopy = fraction1.Copy();
+            fracCopy.Add(fraction2);
+            return fracCopy;
+        }
+
+        public static RecipeFraction operator +(RecipeFraction fraction, int num)
+        {
+            RecipeFraction fracCopy = fraction.Copy();
+            fracCopy.Add(num);
+            return fracCopy;
+        }
+
+        public static RecipeFraction operator -(RecipeFraction fraction1, Fraction fraction2)
+        {
+            RecipeFraction fracCopy = fraction1.Copy();
+            fracCopy.Subtract(fraction2);
+            return fracCopy;
+        }
+        public static RecipeFraction operator -(RecipeFraction fraction, int num)
+        {
+            RecipeFraction fracCopy = fraction.Copy();
+            fracCopy.Subtract(num);
+            return fracCopy;
+        }
     }
 }

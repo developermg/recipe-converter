@@ -266,7 +266,7 @@ namespace RecipeConverterClasses
             {
                 RecipeFraction cups = new RecipeFraction(thirdCups, 3);
                 measurements.Add(new Measurement(cups, Unit.CUP));
-                teaspoons.Subtract(thirdCups * RecipeConstants.TSP_PER_THIRD_CUP);
+                teaspoons-=(thirdCups * RecipeConstants.TSP_PER_THIRD_CUP);
             }
 
         }
@@ -284,7 +284,7 @@ namespace RecipeConverterClasses
             {
                 RecipeFraction cups = new RecipeFraction(quarterCups, 4);
                 measurements.Add(new Measurement(cups, Unit.CUP));
-                teaspoons.Subtract(quarterCups * RecipeConstants.TSP_PER_QUARTER_CUP);
+                teaspoons-=(quarterCups * RecipeConstants.TSP_PER_QUARTER_CUP);
             }
 
         }
@@ -304,7 +304,7 @@ namespace RecipeConverterClasses
             {
                 RecipeFraction tbsp = new RecipeFraction(halfTbsp, 2);
                 measurements.Add(new Measurement(tbsp, Unit.TABLESPOON));
-                teaspoons.Subtract(new Fraction((halfTbsp * RecipeConstants.TSP_PER_TBSP), 2));
+                teaspoons-=(new Fraction((halfTbsp * RecipeConstants.TSP_PER_TBSP), 2));
             }
 
         }

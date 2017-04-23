@@ -140,7 +140,7 @@ namespace RecipeConverterClasses
         {
             RecipeFraction fraction = GetFractionAsFraction(match, 1);
 
-            fraction.Add(Convert.ToInt32(match.Groups["integer"].Captures[0].Value));
+            fraction+=(Convert.ToInt32(match.Groups["integer"].Captures[0].Value));
             return fraction;
         }
 

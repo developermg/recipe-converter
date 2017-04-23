@@ -85,7 +85,7 @@ namespace RecipeConverterClasses
             return fracCopy;
         }
 
-        public static NonNegativeFraction operator -(NonNegativeFraction fraction1, NonNegativeFraction fraction2)
+        public static NonNegativeFraction operator -(NonNegativeFraction fraction1, Fraction fraction2)
         {
             NonNegativeFraction fracCopy = fraction1.Copy();
             fracCopy.Add(fraction2);
