@@ -98,12 +98,12 @@ namespace RecipeConverterClasses
         }
         public void MultiplyBy(Fraction multiplier)
         {
-            Amount.MultiplyBy(multiplier);
+            Amount*=(multiplier);
         }
 
         public void DivideBy(Fraction divisor)
         {
-            Amount.DivideBy(divisor);
+            Amount/=(divisor);
         }
 
         public ICollection<Measurement> UserFriendlyMeasurements()
@@ -151,8 +151,8 @@ namespace RecipeConverterClasses
         private RecipeFraction GetCupsFractionAsTeaspoons()
         {
             RecipeFraction fraction = Amount.Copy();
-            fraction.MultiplyBy(RecipeConstants.TBSP_PER_CUP);
-            fraction.MultiplyBy(RecipeConstants.TSP_PER_TBSP);
+            fraction*=(RecipeConstants.TBSP_PER_CUP);
+            fraction*=(RecipeConstants.TSP_PER_TBSP);
             return fraction;
         }
 
@@ -162,7 +162,7 @@ namespace RecipeConverterClasses
         private RecipeFraction GetTablespoonsFractionAsTeaspoons()
         {
             RecipeFraction fraction = Amount.Copy();
-            fraction.MultiplyBy(RecipeConstants.TSP_PER_TBSP);
+            fraction*=(RecipeConstants.TSP_PER_TBSP);
             return fraction;
         }
 

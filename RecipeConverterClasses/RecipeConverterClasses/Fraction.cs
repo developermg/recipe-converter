@@ -63,16 +63,7 @@ namespace RecipeConverterClasses
             return new Fraction(Denominator, Numerator);
         }
 
-        /// <summary>
-        ///Add the passed fraction to this fraction 
-        /// </summary>
-        /// <param name="fraction"></param>
-        protected virtual void Add(Fraction fraction)
-        {
-            SetToCommonDenominators(this, fraction);
-            Numerator += fraction.Numerator;
-        }
-
+       
         public static  Fraction operator +(Fraction fraction1, Fraction fraction2)
         {
 
@@ -99,6 +90,43 @@ namespace RecipeConverterClasses
             Fraction fracCopy = fraction.Copy();
             fracCopy.Subtract(num);
             return fracCopy;
+        }
+        public static Fraction operator *(Fraction fraction1, Fraction fraction2)
+        {
+            Fraction fracCopy = fraction1.Copy();
+            fracCopy.MultiplyBy(fraction2);
+            return fracCopy;
+        }
+
+        public static Fraction operator *(Fraction fraction, int num)
+        {
+            Fraction fracCopy = fraction.Copy();
+            fraction.MultiplyBy(num);
+            return fraction;
+        }
+
+        public static Fraction operator /(Fraction fraction1, Fraction fraction2)
+        {
+            Fraction fracCopy = fraction1.Copy();
+            fracCopy.DivideBy(fraction2);
+            return fracCopy;
+        }
+
+        public static Fraction operator /(Fraction fraction, int num)
+        {
+            Fraction fracCopy = fraction.Copy();
+            fraction.DivideBy(num);
+            return fraction;
+        }
+
+        /// <summary>
+        ///Add the passed fraction to this fraction 
+        /// </summary>
+        /// <param name="fraction"></param>
+        protected virtual void Add(Fraction fraction)
+        {
+            SetToCommonDenominators(this, fraction);
+            Numerator += fraction.Numerator;
         }
 
         /// <summary>
@@ -136,7 +164,7 @@ namespace RecipeConverterClasses
         /// Multiply this fraction by the passed fraction
         /// </summary>
         /// <param name="fraction">Fraction by which to multiply this fraction</param>
-        public virtual void MultiplyBy(Fraction fraction)
+        protected virtual void MultiplyBy(Fraction fraction)
         {
             Numerator *= fraction.Numerator;
             Denominator *= fraction.Denominator;
@@ -146,17 +174,16 @@ namespace RecipeConverterClasses
         /// Overloaded MultiplyBy method allows for multiplication by an integer, rather than a fraction
         /// </summary>
         /// <param name="multiplier">Integer by which to multiply fraction</param>
-        public virtual void MultiplyBy(int multiplier)
+        protected virtual void MultiplyBy(int multiplier)
         {
-            Fraction mFraction = new Fraction(multiplier, 1);
-            MultiplyBy(mFraction);
+            Numerator *= multiplier;
         }
 
         /// <summary>
         /// Divide this fraction by the passed fraction
         /// </summary>
         /// <param name="fraction">Fraction by which to divide this fraction</param>
-        public virtual void DivideBy(Fraction fraction)
+        protected virtual void DivideBy(Fraction fraction)
         {
             if (fraction.Numerator == 0)
             {
@@ -169,14 +196,13 @@ namespace RecipeConverterClasses
         /// Divide this fraction by the passed fraction
         /// </summary>
         /// <param name="divisor">Number by which to divide the fraction</param>
-        public virtual void DivideBy(int divisor)
+        protected virtual void DivideBy(int divisor)
         {
             if (divisor == 0)
             {
                 throw new DivideByZeroException();
             }
-            Fraction dFraction = new Fraction(1, divisor);
-            MultiplyBy(dFraction);
+            Denominator *= divisor;
         }
 
         /// <summary>

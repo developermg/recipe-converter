@@ -88,14 +88,42 @@ namespace RecipeConverterClasses
         public static NonNegativeFraction operator -(NonNegativeFraction fraction1, Fraction fraction2)
         {
             NonNegativeFraction fracCopy = fraction1.Copy();
-            fracCopy.Add(fraction2);
+            fracCopy.Subtract(fraction2);
             return fracCopy;
         }
 
         public static NonNegativeFraction operator -(NonNegativeFraction fraction, int num)
         {
             NonNegativeFraction fracCopy = fraction.Copy();
-            fraction.Add(fraction);
+            fraction.Subtract(num);
+            return fraction;
+        }
+
+        public static NonNegativeFraction operator *(NonNegativeFraction fraction1, Fraction fraction2)
+        {
+            NonNegativeFraction fracCopy = fraction1.Copy();
+            fracCopy.MultiplyBy(fraction2);
+            return fracCopy;
+        }
+
+        public static NonNegativeFraction operator *(NonNegativeFraction fraction, int num)
+        {
+            NonNegativeFraction fracCopy = fraction.Copy();
+            fraction.MultiplyBy(num);
+            return fraction;
+        }
+
+        public static NonNegativeFraction operator /(NonNegativeFraction fraction1, Fraction fraction2)
+        {
+            NonNegativeFraction fracCopy = fraction1.Copy();
+            fracCopy.DivideBy(fraction2);
+            return fracCopy;
+        }
+
+        public static NonNegativeFraction operator /(NonNegativeFraction fraction, int num)
+        {
+            NonNegativeFraction fracCopy = fraction.Copy();
+            fraction.DivideBy(num);
             return fraction;
         }
         /// <summary>
@@ -147,7 +175,7 @@ namespace RecipeConverterClasses
         protected override void Subtract(Fraction fraction)
         {
             fraction = fraction.Copy();
-            fraction.MultiplyBy(-1);
+            fraction*=-1;
             Add(fraction);
         }
 
@@ -166,11 +194,11 @@ namespace RecipeConverterClasses
         /// Throws an ArgumentOutOfRangeException if Fraction is less than zero
         /// </summary>
         /// <param name="fraction">Fraction by which to multiply</param>
-        public override void MultiplyBy(Fraction fraction)
+        protected override void MultiplyBy(Fraction fraction)
         {
             if (fraction.CompareTo(0) < 0)
             {
-                throw new ArgumentOutOfRangeException("fraction", "Cannot multiply NonNegativeFraction by a negative number.");
+                throw new ArgumentOutOfRangeException("fraction", "Cannot multiply NonNegativeFraction by a negative fraction.");
             }
             base.MultiplyBy(fraction);
         }
@@ -180,13 +208,13 @@ namespace RecipeConverterClasses
         /// Throws an ArgumentOutOfRangeException if integer is less than zero
         /// </summary>
         /// <param name="multiplier">Integer by which to multiply</param>
-        public override void MultiplyBy(int multiplier)
+        protected override void MultiplyBy(int multiplier)
         {
             if (multiplier < 0)
             {
                 throw new ArgumentOutOfRangeException("fraction", "Cannot multiply NonNegativeFraction by a negative number.");
             }
-            base.MultiplyBy(new Fraction(multiplier, 1));
+            base.MultiplyBy(multiplier);
         }
 
         /// <summary>
@@ -194,9 +222,13 @@ namespace RecipeConverterClasses
         /// Throws an ArgumentOutOfRangeException if divisor is less than  zero
         /// </summary>
         /// <param name="divisor">Divisor fraction</param>
-        public override void DivideBy(Fraction divisor)
+        protected override void DivideBy(Fraction divisor)
         {
-            MultiplyBy(divisor.Reciprocal());
+            if (divisor.CompareTo(0) < 0)
+            {
+                throw new ArgumentOutOfRangeException("fraction", "Cannot multiply NonNegativeFraction by a negative fraction.");
+            }
+            base.DivideBy(divisor);
         }
 
         /// <summary>
@@ -204,7 +236,7 @@ namespace RecipeConverterClasses
         /// Throws an ArgumentOutOfRangeException if integer is less than zero
         /// </summary>
         /// <param name="divisor"></param>
-        public override void DivideBy(int divisor)
+        protected override void DivideBy(int divisor)
         {
             //does check here to avoid using Fraction.CompareTo when not necessary
             if (divisor <=0)
@@ -215,7 +247,7 @@ namespace RecipeConverterClasses
              * Calls base because already verified that it is a valid value, 
              *  and does not need to be validated by NonNegativeFraction's MultiplyBy function
              */
-            base.MultiplyBy(new Fraction(1, divisor));
+            base.DivideBy(divisor);
         }
         /// <summary>
         /// The Copy method copies the fraction

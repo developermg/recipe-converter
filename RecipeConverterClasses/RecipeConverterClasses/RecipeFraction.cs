@@ -103,5 +103,33 @@ namespace RecipeConverterClasses
             fracCopy.Subtract(num);
             return fracCopy;
         }
+
+        public static RecipeFraction operator *(RecipeFraction fraction1, Fraction fraction2)
+        {
+            RecipeFraction fracCopy = fraction1.Copy();
+            fracCopy.MultiplyBy(fraction2);
+            return fracCopy;
+        }
+
+        public static RecipeFraction operator *(RecipeFraction fraction, int num)
+        {
+            RecipeFraction fracCopy = fraction.Copy();
+            fraction.MultiplyBy(num);
+            return fraction;
+        }
+
+        public static RecipeFraction operator /(RecipeFraction fraction1, Fraction fraction2)
+        {
+            RecipeFraction fracCopy = fraction1.Copy();
+            fracCopy.DivideBy(fraction2);
+            return fracCopy;
+        }
+
+        public static RecipeFraction operator /(RecipeFraction fraction, int num)
+        {
+            RecipeFraction fracCopy = fraction.Copy();
+            fraction.DivideBy(num);
+            return fraction;
+        }
     }
 }

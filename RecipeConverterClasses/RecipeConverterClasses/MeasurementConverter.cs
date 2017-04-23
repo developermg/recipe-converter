@@ -110,7 +110,7 @@ namespace RecipeConverterClasses
             else
             {
                 RecipeFraction fraction = GetFractionFromMatch(match);
-                fraction.MultiplyBy(multiplier);
+                fraction*=(multiplier);
                 Measurement measurement = new Measurement(fraction, unit);
                 ICollection<Measurement> measurements = measurement.UserFriendlyMeasurements();
                 string replacement = String.Join(" + ", measurements.Select(i => i.ToHTMLFormattedString()));
