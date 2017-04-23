@@ -206,15 +206,17 @@ namespace RecipeConverterClasses
         }
 
         /// <summary>
-        /// The Div function performs the equivelant of integer division (division returning an int) on a fraction
+        /// The Div function performs the equivelant of integer division using fractions 
+        /// x/y = x(div)y + x%y
         /// </summary>
         /// <param name="dividend">Fraction to divide</param>
         /// <param name="divisor">Fraction by which to divide the dividend</param>
         /// <returns>integer result of division</returns>
         public static int Div(Fraction dividend, Fraction divisor)
         {
-            dividend.DivideBy(divisor);
-            return dividend.WholePart();
+            Fraction fracCopy = dividend.Copy();
+            fracCopy.DivideBy(divisor);
+            return fracCopy.WholePart();
         }
         /// <summary>
         /// ToString method returns a string representation of the Fraction
