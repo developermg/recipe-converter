@@ -216,7 +216,7 @@ namespace RecipeConverterClasses
         private static ICollection<Measurement> GetMeasurementsFromThirdCup(RecipeFraction teaspoons)
         {
             ICollection<Measurement> measurements = new List<Measurement>();
-            AddThirdCupsToCollection(teaspoons, measurements);
+            AddThirdCupsToCollection(ref teaspoons, measurements);
             //once have maximum third cups, use GetMeasurementsFromQuarterCups to get next greatest Measurements
             measurements = measurements.Concat(GetMeasurementsFromQuarterCup(teaspoons)).ToList();
 
@@ -238,17 +238,17 @@ namespace RecipeConverterClasses
             {
                 return measurements;
             }
-            AddQuarterCupsToCollection(teaspoons, measurements);
+            AddQuarterCupsToCollection(ref teaspoons, measurements);
             if (teaspoons.EqualsValue(0))
             {
                 return measurements;
             }
-            AddHalfTablespoonsToCollection(teaspoons, measurements);
+            AddHalfTablespoonsToCollection(ref teaspoons, measurements);
             if (teaspoons.EqualsValue(0))
             {
                 return measurements;
             }
-            AddTeaspoonsToCollection(teaspoons, measurements);
+            AddTeaspoonsToCollection(ref teaspoons, measurements);
             return measurements;
         }
 
@@ -259,7 +259,7 @@ namespace RecipeConverterClasses
         /// </summary>
         /// <param name="teaspoons">Fraction representing number of teaspoons</param>
         /// <param name="measurements">Measurements Collection to which to add third cups Measurement</param>
-        private static void AddThirdCupsToCollection(RecipeFraction teaspoons, ICollection<Measurement> measurements)
+        private static void AddThirdCupsToCollection(ref RecipeFraction teaspoons, ICollection<Measurement> measurements)
         {
             int thirdCups = GetThirdCups(teaspoons);
             if (thirdCups > 0)
@@ -277,7 +277,7 @@ namespace RecipeConverterClasses
         /// </summary>
         /// <param name="teaspoons">Fraction representing number of teaspoons</param>
         /// <param name="measurements">Measurements Collection to which to add quarter cups Measurement</param>
-        private static void AddQuarterCupsToCollection(RecipeFraction teaspoons, ICollection<Measurement> measurements)
+        private static void AddQuarterCupsToCollection(ref RecipeFraction teaspoons, ICollection<Measurement> measurements)
         {
             int quarterCups = GetQuarterCups(teaspoons);
             if (quarterCups > 0)
@@ -297,7 +297,7 @@ namespace RecipeConverterClasses
         /// </summary>
         /// <param name="teaspoons">Fraction representing number of teaspoons</param>
         /// <param name="measurements">Measurements Collection to which to add half tablespoons Measurement</param>
-        private static void AddHalfTablespoonsToCollection(Fraction teaspoons, ICollection<Measurement> measurements)
+        private static void AddHalfTablespoonsToCollection(ref RecipeFraction teaspoons, ICollection<Measurement> measurements)
         {
             int halfTbsp = GetHalfTablespoons(teaspoons);
             if (halfTbsp > 0)
@@ -314,7 +314,7 @@ namespace RecipeConverterClasses
         /// </summary>
         /// <param name="teaspoons">Number of teaspoons to add to Collection</param>
         /// <param name="measurements">Collection to which to add teaspoons Measurement</param>
-        private static void AddTeaspoonsToCollection(RecipeFraction teaspoons, ICollection<Measurement> measurements)
+        private static void AddTeaspoonsToCollection(ref RecipeFraction teaspoons, ICollection<Measurement> measurements)
         {
 
             if (teaspoons.CompareTo(0) > 0)
