@@ -8,7 +8,7 @@ namespace RecipeConverterClasses
 {
     public class Fraction : IComparable<Fraction>
     {
-        //integers to hold the fraction 
+        //integers to hold the fraction's  numerator and denominator
         private int _numerator;
         private int _denominator;
 
@@ -64,59 +64,116 @@ namespace RecipeConverterClasses
         }
 
        
-        public static  Fraction operator +(Fraction fraction1, Fraction fraction2)
+        /// <summary>
+        /// Overloaded + operator allows for more natural Fraction addition
+        /// </summary>
+        /// <param name="addend1">Fraction addend</param>
+        /// <param name="addend2">Fraction addend</param>
+        /// <returns>Sum of two Fraction addends</returns>
+        public static  Fraction operator +(Fraction addend1, Fraction addend2)
         {
-
-            Fraction fracCopy = fraction1.Copy();
-            fracCopy.Add(fraction2);
-            return fracCopy;
-        }
-        public static Fraction operator +(Fraction fraction, int num)
-        {
-            Fraction fracCopy = fraction.Copy();
-            fracCopy.Add(num);
-            return fracCopy;
-        }
-
-        public static Fraction operator -(Fraction fraction1, Fraction fraction2)
-        {
-            Fraction fracCopy = fraction1.Copy();
-            fracCopy.Subtract(fraction2);
+            //copy so that no unexpected side effect of changing value of an addend
+            Fraction fracCopy = addend1.Copy();
+            fracCopy.Add(addend2);
             return fracCopy;
         }
 
-        public static Fraction operator -(Fraction fraction, int num)
+        /// <summary>
+        /// Overloaded + operator allows for more natural addition of integers to Fractions
+        /// </summary>
+        /// <param name="fractionAddend">Fraction addend</param>
+        /// <param name="integerAddend">Integer addend</param>
+        /// <returns>Sum of addends</returns>
+        public static Fraction operator +(Fraction fractionAddend, int integerAddend)
         {
-            Fraction fracCopy = fraction.Copy();
-            fracCopy.Subtract(num);
-            return fracCopy;
-        }
-        public static Fraction operator *(Fraction fraction1, Fraction fraction2)
-        {
-            Fraction fracCopy = fraction1.Copy();
-            fracCopy.MultiplyBy(fraction2);
-            return fracCopy;
-        }
-
-        public static Fraction operator *(Fraction fraction, int num)
-        {
-            Fraction fracCopy = fraction.Copy();
-            fraction.MultiplyBy(num);
-            return fraction;
-        }
-
-        public static Fraction operator /(Fraction fraction1, Fraction fraction2)
-        {
-            Fraction fracCopy = fraction1.Copy();
-            fracCopy.DivideBy(fraction2);
+            //copy so that no unexpected side effect of changing value of an addend
+            Fraction fracCopy = fractionAddend.Copy();
+            fracCopy.Add(integerAddend);
             return fracCopy;
         }
 
-        public static Fraction operator /(Fraction fraction, int num)
+        /// <summary>
+        /// Overloaded - operator allows for more natural subtraction of a Fraction from a Fraction
+        /// </summary>
+        /// <param name="minuend">Fraction minuend</param>
+        /// <param name="subtrahend">Fraction subtrahend</param>
+        /// <returns>Fraction difference</returns>
+        public static Fraction operator -(Fraction minuend, Fraction subtrahend)
         {
-            Fraction fracCopy = fraction.Copy();
-            fraction.DivideBy(num);
-            return fraction;
+            //copy so that no unexpected side effect of changing value of minuend
+            Fraction fracCopy = minuend.Copy();
+            fracCopy.Subtract(subtrahend);
+            return fracCopy;
+        }
+
+        /// <summary>
+        /// Overloaded - operator allows for more natural subtraction of an integer from a Fraction
+        /// </summary>
+        /// <param name="minuend">Fraction minuend</param>
+        /// <param name="subtrahend">Integer subtrahend</param>
+        /// <returns>Fraction difference</returns>
+        public static Fraction operator -(Fraction minuend, int subtrahend)
+        {
+            //copy so that no unexpected side effect of changing value of minuend
+            Fraction fracCopy = minuend.Copy();
+            fracCopy.Subtract(subtrahend);
+            return fracCopy;
+        }
+
+        /// <summary>
+        /// Overloaded * operator allows for more natural multiplication of Fraction objects
+        /// </summary>
+        /// <param name="factor1">Fraction factor</param>
+        /// <param name="factor2">Fraction factor</param>
+        /// <returns>Product of factors</returns>
+        public static Fraction operator *(Fraction factor1, Fraction factor2)
+        {
+            //copy so that no unexpected side effect of changing value of a factor
+            Fraction fracCopy = factor1.Copy();
+            fracCopy.MultiplyBy(factor2);
+            return fracCopy;
+        }
+
+        /// <summary>
+        /// Overloaded * operator allows for more natural multiplication Fraction object by an integer
+        /// </summary>
+        /// <param name="fractionFactor">Fraction factor</param>
+        /// <param name="integerFactor">Integer factor</param>
+        /// <returns>Product of factors</returns>
+        public static Fraction operator *(Fraction fractionFactor, int integerFactor)
+        {
+            //copy so that no unexpected side effect of changing value of a factor
+            Fraction fracCopy = fractionFactor.Copy();
+            fractionFactor.MultiplyBy(integerFactor);
+            return fractionFactor;
+        }
+
+        /// <summary>
+        /// Overloaded / operator allows for more natural division of Fractions
+        /// </summary>
+        /// <param name="dividend">Fraction dividend</param>
+        /// <param name="divisor">Fraction divisor</param>
+        /// <returns>Fraction quotient</returns>
+        public static Fraction operator /(Fraction dividend, Fraction divisor)
+        {
+            //copy so that no unexpected side effect of changing value of dividend
+            Fraction fracCopy = dividend.Copy();
+            fracCopy.DivideBy(divisor);
+            return fracCopy;
+        }
+
+        /// <summary>
+        /// Overloaded / operator allows for more natural division of a Fraction by an integer
+        /// </summary>
+        /// <param name="dividend"></param>
+        /// <param name="divisor"></param>
+        /// <returns>Fraction quotient</returns>
+        public static Fraction operator /(Fraction dividend, int divisor)
+        {
+            //copy so that no unexpected side effect of changing value of dividend
+            Fraction fracCopy = dividend.Copy();
+            dividend.DivideBy(divisor);
+            return dividend;
         }
 
         /// <summary>
@@ -370,7 +427,7 @@ namespace RecipeConverterClasses
         /// <returns></returns>
         private static int GetGreatestCommonDivisor(int a, int b)
         {
-            // Uses Euclid's algorithm 
+            // Uses Euclid's algorithm
             if (b != 0)
             {
                 int r = 1;
