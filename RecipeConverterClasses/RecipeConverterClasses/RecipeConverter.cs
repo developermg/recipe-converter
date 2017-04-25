@@ -67,7 +67,7 @@ namespace RecipeConverterClasses
         }
 
         /// <summary>
-        /// The ConvertLine method returns a line of text with all contained measurements
+        /// The Convert method returns a line of text with all contained measurements
         /// multiplied by multiplier and in user-friendly measurements
         /// </summary>
         /// <param name="line">Line of text to convert</param>
@@ -78,7 +78,7 @@ namespace RecipeConverterClasses
             if (!String.IsNullOrWhiteSpace(line))
             {
                 MeasurementConverter converter = new MeasurementConverter(line, _multiplier);
-                line = converter.ConvertLine();
+                line = converter.Convert();
                 /* Puts a bullet point at the beginning of the line to indicate the start of a new line
                  * because a single ingredient's measurements could wrap onto more than one line */
                 line = "\u2022" + " " + line;
