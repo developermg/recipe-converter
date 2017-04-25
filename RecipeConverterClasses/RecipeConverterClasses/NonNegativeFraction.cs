@@ -18,7 +18,7 @@ namespace RecipeConverterClasses
         /// <param name="denominator">Fraction denominator</param>
         public NonNegativeFraction(int numerator, int denominator)
         {
-            //Sets values using the getter/setters to ensure valid values are passed
+            //Sets values using properties to ensure valid values have been passed
             Numerator = numerator;
             Denominator = denominator;
 
@@ -70,28 +70,52 @@ namespace RecipeConverterClasses
             }
         }
 
-        public static  NonNegativeFraction operator +(NonNegativeFraction fraction1, Fraction fraction2)
-        { 
-            NonNegativeFraction fracCopy = fraction1.Copy();
-            fracCopy.Add(fraction2);
-            return fracCopy;
-           
-        }
-
-        public static NonNegativeFraction operator +(NonNegativeFraction fraction, int num)
+        /// <summary>
+        /// Overloaded + operator allows for more natural Fraction addition
+        /// </summary>
+        /// <param name="addend1">NonNegativeFraction addend</param>
+        /// <param name="addend2">Fraction addend</param>
+        /// <returns>Sum of addends</returns>
+        public static NonNegativeFraction operator +(NonNegativeFraction addend1, Fraction addend2)
         {
-            NonNegativeFraction fracCopy = fraction.Copy();
-            fracCopy.Add(num);
+            NonNegativeFraction fracCopy = addend1.Copy();
+            fracCopy.Add(addend2);
             return fracCopy;
+
         }
 
-        public static NonNegativeFraction operator -(NonNegativeFraction fraction1, Fraction fraction2)
+        /// <summary>
+        /// Overloaded + operator allows for more natural addition of integers to Fractions
+        /// </summary>
+        /// <param name="fractionAddend">NonNegativeFraction addend</param>
+        /// <param name="integerAddend">Integer addend</param>
+        /// <returns>Sum of addends</returns>
+        public static NonNegativeFraction operator +(NonNegativeFraction fractionAddend, int integerAddend)
         {
-            NonNegativeFraction fracCopy = fraction1.Copy();
-            fracCopy.Subtract(fraction2);
+            NonNegativeFraction fracCopy = fractionAddend.Copy();
+            fracCopy.Add(integerAddend);
             return fracCopy;
         }
 
+        /// <summary>
+        /// Overloaded - operator allows for more natural subtraction of a Fraction from a Fraction
+        /// </summary>
+        /// <param name="minuend">NonNegativeFraction minuend</param>
+        /// <param name="subtrahend">Fraction subtrahend</param>
+        /// <returns>NonNegativeFraction difference</returns>
+        public static NonNegativeFraction operator -(NonNegativeFraction minuend, Fraction subtrahend)
+        {
+            NonNegativeFraction fracCopy = minuend.Copy();
+            fracCopy.Subtract(subtrahend);
+            return fracCopy;
+        }
+
+        /// <summary>
+        /// Overloaded - operator allows for more natural subtraction of an integer from a Fraction
+        /// </summary>
+        /// <param name="minuend">NonNegativeFraction minuend</param>
+        /// <param name="subtrahend">Integer subtrahend</param>
+        /// <returns>NonNegativeFraction difference</returns>
         public static NonNegativeFraction operator -(NonNegativeFraction fraction, int num)
         {
             NonNegativeFraction fracCopy = fraction.Copy();
@@ -99,32 +123,56 @@ namespace RecipeConverterClasses
             return fraction;
         }
 
-        public static NonNegativeFraction operator *(NonNegativeFraction fraction1, Fraction fraction2)
+        /// <summary>
+        /// Overloaded * operator allows for more natural multiplication of Fraction objects
+        /// </summary>
+        /// <param name="factor1">NonNegativeFraction factor</param>
+        /// <param name="factor2">Fraction factor</param>
+        /// <returns>Product of factors</returns>
+        public static NonNegativeFraction operator *(NonNegativeFraction factor1, Fraction factor2)
         {
-            NonNegativeFraction fracCopy = fraction1.Copy();
-            fracCopy.MultiplyBy(fraction2);
+            NonNegativeFraction fracCopy = factor1.Copy();
+            fracCopy.MultiplyBy(factor2);
             return fracCopy;
         }
 
-        public static NonNegativeFraction operator *(NonNegativeFraction fraction, int num)
+        /// <summary>
+        /// Overloaded * operator allows for more natural multiplication of a Fraction by an integer
+        /// </summary>
+        /// <param name="fractionFactor">NonNegativeFraction factor</param>
+        /// <param name="integerFactor">Integer factor</param>
+        /// <returns>Product of factors</returns>
+        public static NonNegativeFraction operator *(NonNegativeFraction fractionFactor, int integerFactor)
         {
-            NonNegativeFraction fracCopy = fraction.Copy();
-            fraction.MultiplyBy(num);
-            return fraction;
+            NonNegativeFraction fracCopy = fractionFactor.Copy();
+            fractionFactor.MultiplyBy(integerFactor);
+            return fractionFactor;
         }
 
-        public static NonNegativeFraction operator /(NonNegativeFraction fraction1, Fraction fraction2)
+        /// <summary>
+        /// Overloaded / operator allows for more natural division of Fractions
+        /// </summary>
+        /// <param name="dividend">NonNegativeFraction dividend</param>
+        /// <param name="divisor">Fraction divisor</param>
+        /// <returns>NonNegativeFraction quotient</returns>
+        public static NonNegativeFraction operator /(NonNegativeFraction dividend, Fraction divisor)
         {
-            NonNegativeFraction fracCopy = fraction1.Copy();
-            fracCopy.DivideBy(fraction2);
+            NonNegativeFraction fracCopy = dividend.Copy();
+            fracCopy.DivideBy(divisor);
             return fracCopy;
         }
 
-        public static NonNegativeFraction operator /(NonNegativeFraction fraction, int num)
+        /// <summary>
+        /// Overloaded / operator allows for more natural division of a Fraction by an integer
+        /// </summary>
+        /// <param name="dividend">NonNegativeFraction dividend</param>
+        /// <param name="divisor">Integer divisor</param>
+        /// <returns>NonNegativeFraction quotient</returns>
+        public static NonNegativeFraction operator /(NonNegativeFraction dividend, int divisor)
         {
-            NonNegativeFraction fracCopy = fraction.Copy();
-            fraction.DivideBy(num);
-            return fraction;
+            NonNegativeFraction fracCopy = dividend.Copy();
+            dividend.DivideBy(divisor);
+            return dividend;
         }
         /// <summary>
         /// The Add method adds a Fraction to the NonNegativeFraction
@@ -133,11 +181,11 @@ namespace RecipeConverterClasses
         /// <param name="fraction">Fraction to add</param>
         protected override void Add(Fraction fraction)
         {
-            //if the fraction is less than zero, checks if it will cause the 
+            //if the fractionAddend is less than zero, checks if it will cause the 
             if (fraction.CompareTo(0) < 0)
             {
                 Fraction checkingFrction = Copy();
-                checkingFrction+=fraction;
+                checkingFrction += fraction;
                 if (checkingFrction.CompareTo(0) < 0)
                 {
                     throw new ArgumentOutOfRangeException("fraction", "Argument cannot make NonNegativeFraction negative.");
@@ -163,8 +211,8 @@ namespace RecipeConverterClasses
                     throw new ArgumentOutOfRangeException("fraction", "Argument cannot make NonNegativeFraction negative.");
                 }
             }
-                base.Add(num);
-            
+            base.Add(num);
+
         }
 
         /// <summary>
@@ -175,7 +223,7 @@ namespace RecipeConverterClasses
         protected override void Subtract(Fraction fraction)
         {
             fraction = fraction.Copy();
-            fraction*=-1;
+            fraction *= -1;
             Add(fraction);
         }
 
@@ -221,7 +269,7 @@ namespace RecipeConverterClasses
         /// The DivideBy method divides the NonNegativeFraction by a Fraction
         /// Throws an ArgumentOutOfRangeException if divisor is less than  zero
         /// </summary>
-        /// <param name="divisor">Divisor fraction</param>
+        /// <param name="divisor">Divisor fractionAddend</param>
         protected override void DivideBy(Fraction divisor)
         {
             if (divisor.CompareTo(0) < 0)
@@ -239,7 +287,7 @@ namespace RecipeConverterClasses
         protected override void DivideBy(int divisor)
         {
             //does check here to avoid using Fraction.CompareTo when not necessary
-            if (divisor <=0)
+            if (divisor <= 0)
             {
                 throw new ArgumentOutOfRangeException("fraction", "Cannot divide NonNegativeFraction by a non-positive number.");
             }
@@ -249,8 +297,9 @@ namespace RecipeConverterClasses
              */
             base.DivideBy(divisor);
         }
+
         /// <summary>
-        /// The Copy method copies the fraction
+        /// The Copy method copies the fractionAddend
         /// </summary>
         /// <returns>Copy of the Fraction object</returns>
         public new NonNegativeFraction Copy()

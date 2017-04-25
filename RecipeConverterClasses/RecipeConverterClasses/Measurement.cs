@@ -9,8 +9,8 @@ namespace RecipeConverterClasses
 
     public class Measurement
     {
-        private RecipeFraction _amount;
-        private Unit _unitSize;
+        private RecipeFraction _amount; //numeric part of measurement
+        private Unit _unitSize;         //unit of measurement
 
         /// <summary>
         /// Constructor
@@ -24,7 +24,7 @@ namespace RecipeConverterClasses
             this._unitSize = unit;
         }
         //Getters and setters:
-        internal RecipeFraction Amount
+        protected internal RecipeFraction Amount
         {
             get
             {
@@ -35,8 +35,7 @@ namespace RecipeConverterClasses
                 _amount = value;
             }
         }
-
-        internal Unit UnitSize
+        protected internal Unit UnitSize
         {
             get
             {
@@ -49,59 +48,10 @@ namespace RecipeConverterClasses
         }
 
         /// <summary>
-        /// The ToString method returns a string representation of the Measurement
+        /// The UserFriendlyMeasurements method returns a collection of measurements 
+        /// that is the user-friendly equivelant of the current measurement
         /// </summary>
-        /// <returns>String representation of the Measurement</returns>
-        public override string ToString()
-        {
-            if (UnitSize == Unit.OTHER)
-            {
-                return Amount.ToString();
-
-            }
-            else
-            {
-                string unitString = Amount.CompareTo(1) > 0 ? UnitSize.ToString() + "S" : UnitSize.ToString();
-                return Amount.ToString() + " " + unitString;
-            }
-
-        }
-
-        public string ToHTMLFormattedString()
-        {
-            if (UnitSize == Unit.OTHER)
-            {
-                return Amount.ToHTMLFormattedString();
-            }
-            else
-            {
-                string unitString = Amount.CompareTo(1) > 0 ? UnitSize.ToString() + "S" : UnitSize.ToString();
-                return Amount.ToHTMLFormattedString() + " " + unitString;
-            }
-
-        }
-
-
-        /// <summary>
-        /// The Copy method returns a deep copy of the Measurement
-        /// </summary>
-        /// <returns>Copy of Measurement object</returns>
-        public Measurement Copy()
-        {
-            return new Measurement(Amount.Copy(), UnitSize);
-        }
-        //NEW: NEED COMMENTS EDITED OR ADDED
-
-        public bool Equals(Measurement measurement)
-        {
-            return Amount.Equals(measurement.Amount) && UnitSize.Equals(measurement.UnitSize);
-        }
-        public void MultiplyBy(Fraction multiplier)
-        {
-            Amount*=(multiplier);
-        }
-
-
+        /// <returns></returns>
         public ICollection<Measurement> UserFriendlyMeasurements()
         {
 
@@ -113,62 +63,69 @@ namespace RecipeConverterClasses
             }
             else
             {
-                RecipeFraction teaspoons = GetFractionAsTeaspoons();
-                return GetUserFriendlyMeasurements(teaspoons);
+                RecipeFraction teaspoons = GetAsTeaspoons();
+                return TeaspoonsToUserFriendlyMeasurements(teaspoons);
             }
 
         }
 
+
         /// <summary>
-        /// The ConvertNewMeasurementToTeaspoons method converts the new measurement to teaspoons
+        /// The GetAsTeaspoons method gets the equivelant of the Measurement in teaspoons
         /// </summary>
-        private RecipeFraction GetFractionAsTeaspoons()
+        /// <returns>RecipeFraction representing number of teaspoons that is the equivelant of this Measurement</returns>
+        private RecipeFraction GetAsTeaspoons()
         {
             switch (UnitSize)
             {
                 case Unit.CUP:
-                    return GetCupsFractionAsTeaspoons();
+                    return GetCupsAsTeaspoons(Amount);
 
                 case Unit.TABLESPOON:
-                    return GetTablespoonsFractionAsTeaspoons();
+                    return GetTablespoonsAsTeaspoons(Amount);
 
                 case Unit.TEASPOON:
                     return Amount.Copy();
 
                 default:
-                    throw new Exception();
+                    throw new UnsupportedUnitException("Only CUP, TABLESPOON AND TEASPOON can be converted to teaspoons.");
 
             }
         }
 
         /// <summary>
-        /// The ConvertCupToTeaspoon method converts the new Measurement from cups to teaspoons
+        /// The GetCupsAsTeaspoons method returns the equivelant of 
+        /// a RecipeFraction of cups as a RecipeFraction of teaspoons
         /// </summary>
-        private RecipeFraction GetCupsFractionAsTeaspoons()
+        /// <param name="fraction">RecipeFraction representing number of cups</param>
+        /// <returns>RecipeFraction representing number of teaspoons</returns>
+        private static RecipeFraction GetCupsAsTeaspoons(RecipeFraction fraction)
         {
-            RecipeFraction fraction = Amount.Copy();
-            fraction*=(RecipeConstants.TBSP_PER_CUP);
-            fraction*=(RecipeConstants.TSP_PER_TBSP);
-            return fraction;
+            /*don't have to copy RecipeFraction because *= returns new RecipeFraction 
+            and will therefore not be able to change fraction (it was not passed by value using ref/out)*/
+            fraction *= (RecipeConstants.TBSP_PER_CUP);
+
+            return GetTablespoonsAsTeaspoons(fraction);
         }
 
         /// <summary>
-        /// The ConvertTablespoonToTeaspoon method converts the new Measurement from tablespoons to teaspoons
+        /// The GetTablespoonsAsTeaspoons method the equivelant of 
+        /// a RecipeFraction of tablespoons as a RecipeFraction of teaspoons 
         /// </summary>
-        private RecipeFraction GetTablespoonsFractionAsTeaspoons()
+        /// <param name="fraction">RecipeFraction representing number of tablespoons</param>
+        /// <returns>RecipeFraction representing number of teaspoons</returns>
+        private static RecipeFraction GetTablespoonsAsTeaspoons(RecipeFraction fraction)
         {
-            RecipeFraction fraction = Amount.Copy();
-            fraction*=(RecipeConstants.TSP_PER_TBSP);
-            return fraction;
+            return fraction * (RecipeConstants.TSP_PER_TBSP);
         }
 
         /// <summary>
-        /// The GetUserFriendlyMeasurements gets a collection of user friendly measurements
-        /// based on the number of teaspoons in a recipe
+        /// The TeaspoonsToUserFriendlyMeasurements gets a collection of user friendly measurements
+        /// from RecipeFraction of teaspoons 
         /// </summary>
         /// <param name="teaspoons">RecipeFraction containing number of teaspoons in the recipe</param>
         /// <returns>Collection of user friendly measurements</returns>
-        private static ICollection<Measurement> GetUserFriendlyMeasurements(RecipeFraction teaspoons)
+        private static ICollection<Measurement> TeaspoonsToUserFriendlyMeasurements(RecipeFraction teaspoons)
         {
             //Get simplified measurements, using as many quarter cups as possible 
             ICollection<Measurement> convertedMeasurements = GetMeasurementsFromQuarterCup(teaspoons.Copy());
@@ -215,8 +172,6 @@ namespace RecipeConverterClasses
             AddThirdCupsToCollection(ref teaspoons, measurements);
             //once have maximum third cups, use GetMeasurementsFromQuarterCups to get next greatest Measurements
             measurements = measurements.Concat(GetMeasurementsFromQuarterCup(teaspoons)).ToList();
-
-
             return measurements;
         }
 
@@ -248,7 +203,6 @@ namespace RecipeConverterClasses
             return measurements;
         }
 
-
         /// <summary>
         /// The AddThirdCupsToCollection method adds as many third cup Measurements as can be formed from given number of teaspoons to a Collection 
         /// The third cups are added as a single Measurement with a Fraction reflecting the number of third cups
@@ -262,7 +216,7 @@ namespace RecipeConverterClasses
             {
                 RecipeFraction cups = new RecipeFraction(thirdCups, 3);
                 measurements.Add(new Measurement(cups, Unit.CUP));
-                teaspoons-=(thirdCups * RecipeConstants.TSP_PER_THIRD_CUP);
+                teaspoons -= (thirdCups * RecipeConstants.TSP_PER_THIRD_CUP);
             }
 
         }
@@ -280,11 +234,10 @@ namespace RecipeConverterClasses
             {
                 RecipeFraction cups = new RecipeFraction(quarterCups, 4);
                 measurements.Add(new Measurement(cups, Unit.CUP));
-                teaspoons-=(quarterCups * RecipeConstants.TSP_PER_QUARTER_CUP);
+                teaspoons -= (quarterCups * RecipeConstants.TSP_PER_QUARTER_CUP);
             }
 
         }
-
 
         /// <summary>
         /// The AddHalfTablespoonsToCollection method adds as many half tablespoon Measurements 
@@ -300,7 +253,7 @@ namespace RecipeConverterClasses
             {
                 RecipeFraction tbsp = new RecipeFraction(halfTbsp, 2);
                 measurements.Add(new Measurement(tbsp, Unit.TABLESPOON));
-                teaspoons-=(new Fraction((halfTbsp * RecipeConstants.TSP_PER_TBSP), 2));
+                teaspoons -= (new Fraction((halfTbsp * RecipeConstants.TSP_PER_TBSP), 2));
             }
 
         }
@@ -321,16 +274,14 @@ namespace RecipeConverterClasses
         }
 
         /// <summary>
-        /// The GetHalfTablespoons method gets the greatest number of half tablespoons
+        /// The GetThirdCups method gets the greatest number of third cups 
         /// that can be formed from given number of teaspoons
         /// </summary>
         /// <param name="teaspoons">Fraction representing number of teaspoons</param>
-        /// <returns>Greatest number of half tablespoons that can be formed</returns>
-        private static int GetHalfTablespoons(Fraction teaspoons)
+        /// <returns>Greatest number of third cups that can be formed</returns>
+        private static int GetThirdCups(Fraction teaspoons)
         {
-            //equivelant of teaspoons/number_of_teaspoons_per_half_teaspoon, but need Fraction's div
-            //method because they are both fractions
-            return Fraction.Div(teaspoons.Copy(), new Fraction(3, 2));
+            return teaspoons.WholePart() / RecipeConstants.TSP_PER_THIRD_CUP;
         }
 
         /// <summary>
@@ -346,15 +297,64 @@ namespace RecipeConverterClasses
         }
 
         /// <summary>
-        /// The GetThirdCups method gets the greatest number of third cups 
+        /// The GetHalfTablespoons method gets the greatest number of half tablespoons
         /// that can be formed from given number of teaspoons
         /// </summary>
         /// <param name="teaspoons">Fraction representing number of teaspoons</param>
-        /// <returns>Greatest number of third cups that can be formed</returns>
-        private static int GetThirdCups(Fraction teaspoons)
+        /// <returns>Greatest number of half tablespoons that can be formed</returns>
+        private static int GetHalfTablespoons(Fraction teaspoons)
         {
-            return teaspoons.WholePart() / RecipeConstants.TSP_PER_THIRD_CUP;
+            //equivelant of teaspoons/number_of_teaspoons_per_half_teaspoon, but need Fraction's div
+            //method because they are both fractions
+            return Fraction.Div(teaspoons.Copy(), new Fraction(3, 2));
         }
 
+        /// <summary>
+        /// The ToString method returns a string representation of the Measurement
+        /// </summary>
+        /// <returns>String representation of the Measurement</returns>
+        public override string ToString()
+        {
+            if (UnitSize == Unit.OTHER)
+            {
+                return Amount.ToString();
+
+            }
+            else
+            {
+                //add S to end of unit if more than 1
+                string unitString = Amount.CompareTo(1) > 0 ? UnitSize.ToString() + "S" : UnitSize.ToString();
+                return Amount.ToString() + " " + unitString;
+            }
+
+        }
+
+        /// <summary>
+        /// The ToHTMLFormattedString method returns a string that includes HTML tags to better display fractions
+        /// </summary>
+        /// <returns>String containing HTML-formatted representation of Measurement </returns>
+        public string ToHTMLFormattedString()
+        {
+            if (UnitSize == Unit.OTHER)
+            {
+                return Amount.ToHTMLFormattedString();
+            }
+            else
+            {
+                string unitString = Amount.CompareTo(1) > 0 ? UnitSize.ToString() + "S" : UnitSize.ToString();
+                return Amount.ToHTMLFormattedString() + " " + unitString;
+            }
+
+        }
+
+
+        /// <summary>
+        /// The Copy method returns a deep copy of the Measurement
+        /// </summary>
+        /// <returns>Copy of Measurement object</returns>
+        public Measurement Copy()
+        {
+            return new Measurement(Amount.Copy(), UnitSize);
+        }
     }
 }

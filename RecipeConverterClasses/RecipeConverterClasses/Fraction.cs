@@ -63,14 +63,14 @@ namespace RecipeConverterClasses
             return new Fraction(Denominator, Numerator);
         }
 
-       
+
         /// <summary>
         /// Overloaded + operator allows for more natural Fraction addition
         /// </summary>
         /// <param name="addend1">Fraction addend</param>
         /// <param name="addend2">Fraction addend</param>
         /// <returns>Sum of two Fraction addends</returns>
-        public static  Fraction operator +(Fraction addend1, Fraction addend2)
+        public static Fraction operator +(Fraction addend1, Fraction addend2)
         {
             //copy so that no unexpected side effect of changing value of an addend
             Fraction fracCopy = addend1.Copy();
@@ -135,7 +135,7 @@ namespace RecipeConverterClasses
         }
 
         /// <summary>
-        /// Overloaded * operator allows for more natural multiplication Fraction object by an integer
+        /// Overloaded * operator allows for more natural multiplication of a Fraction object by an integer
         /// </summary>
         /// <param name="fractionFactor">Fraction factor</param>
         /// <param name="integerFactor">Integer factor</param>
@@ -165,8 +165,8 @@ namespace RecipeConverterClasses
         /// <summary>
         /// Overloaded / operator allows for more natural division of a Fraction by an integer
         /// </summary>
-        /// <param name="dividend"></param>
-        /// <param name="divisor"></param>
+        /// <param name="dividend">Fraction dividend</param>
+        /// <param name="divisor">Integer divisor</param>
         /// <returns>Fraction quotient</returns>
         public static Fraction operator /(Fraction dividend, int divisor)
         {
@@ -287,6 +287,7 @@ namespace RecipeConverterClasses
         {
             return "<sup>" + Numerator + "</sup>&frasl;<sub>" + Denominator + "</sub>";
         }
+
         /// <summary>
         /// The Equals method returns whether a Fraction is the equivelant object to this object
         /// Does not return true if mathematical values are equivelant if objects do not contain the same numerators
@@ -351,7 +352,7 @@ namespace RecipeConverterClasses
                     return 1;
                 }
             }
-            else 
+            else
             {
                 return wholePart - num;
             }

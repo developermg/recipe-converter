@@ -16,6 +16,7 @@ namespace RecipeConverterClasses
         private string _originalRecipe;
         private NonNegativeFraction _multiplier;
 
+        //getter (user modification of original recipe not allowd).
         public string OriginalRecipe
         {
             get
@@ -28,23 +29,22 @@ namespace RecipeConverterClasses
         /// Constructor 
         /// </summary>
         /// <param name="recipe">string of recipe text</param>
+        /// <param name="multiplier">NonNegativeFraction by which to multiply recipe</param>
         public RecipeConverter(string recipe, NonNegativeFraction multiplier)
         {
             _originalRecipe = recipe;
             _multiplier = multiplier;
         }
 
-
         /// <summary>
-        /// The multiplyBy method multiplies the recipe
+        /// The Convert method converts the recipe
         /// </summary>
-        /// <param name="numerator">Numerator of fraction by which to multiply the recipe (or new serving size)</param>
-        /// <param name="denominator">Denominator of fraction by which to multiply the recipe (or original serving size)</param>
         /// <returns>Environment.NewLine delimited string of converted recipes</returns>
         public string Convert()
         {
-            StringBuilder convertedRecipe = new StringBuilder();
             string[] separators = { "\r\n" };
+            StringBuilder convertedRecipe = new StringBuilder();
+            //split recipe into individual lines
             string[] recipeLines = _originalRecipe.Split(separators, StringSplitOptions.None);
             try
             {
@@ -56,37 +56,32 @@ namespace RecipeConverterClasses
                         convertedRecipe.Append(Environment.NewLine);
                     }
                     convertedRecipe.Append(ConvertLine(line));
-                    
-
                 }
                 return convertedRecipe.ToString();
             }
-            //Handles exception thrown by StringBuilder when it reaches maximum capacity.
+            //Handles exception thrown by StringBuilder when it reaches maximum capacity
             catch (ArgumentOutOfRangeException e)
             {
                 return convertedRecipe.ToString() + Environment.NewLine + "-------RECIPE TERMINATED-------";
             }
         }
 
+        /// <summary>
+        /// The ConvertLine method returns a line of text with all contained measurements
+        /// multiplied by multiplier and in user-friendly measurements
+        /// </summary>
+        /// <param name="line">Line of text to convert</param>
+        /// <returns>Converted line of text</returns>
         private string ConvertLine(string line)
         {
+            //if blank line, blank line returned
             if (!String.IsNullOrWhiteSpace(line))
             {
-
-                //use regex reader to return string of measurement and add to convertedRecipe
-                MeasurementConverter reader = new MeasurementConverter(line, _multiplier);
-                /* Measurement originalMeasurement = reader.Read();
-                 if (originalMeasurement != null)
-                 {
-
-                     originalMeasurement.MultiplyBy(_multiplier);
-                     Match match = reader.Match;
-                     ICollection<Measurement> convertedMeasurement = originalMeasurement.UserFriendlyMeasurements();
-                     string replacement = String.Join(" + ", convertedMeasurement.Select(i => i.ToHTMLFormattedString()));
-                     line=line.Replace(match.Value, replacement);
-
-                 }*/
-                line= reader.ConvertLine();
+                MeasurementConverter converter = new MeasurementConverter(line, _multiplier);
+                line = converter.ConvertLine();
+                /* Puts a bullet point at the beginning of the line to indicate the start of a new line
+                 * because a single ingredient's measurements could wrap onto more than one line */
+                line = "\u2022" + " " + line;
             }
             return line;
         }

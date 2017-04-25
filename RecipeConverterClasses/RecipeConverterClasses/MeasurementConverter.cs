@@ -9,6 +9,7 @@ namespace RecipeConverterClasses
 {
     public class MeasurementConverter
     {
+        //Strings Regex for numbers:
         private const string INTEGER_PATTERN = @"(?<integer>\d+)";
         private const string SLASH_FRACTION_PATTERN = @"(?<slash_fraction>" + INTEGER_PATTERN + @"/" + INTEGER_PATTERN + @")";
         private const string UNICODE_FRACTION_PATTERN = @"(?<unicode_fraction>[\u00BC-\u00BE]|[\u2150-\u215E])";
@@ -17,6 +18,7 @@ namespace RecipeConverterClasses
         private const string RANGE_PATTERN = "(?<range>" + NUMBER_PATTERN + @"(\s*)-(\s*)" + NUMBER_PATTERN + ")";
         private const string NUMBER_PATTERN = "(?<number>" + MIXED_FRACTION_PATTERN + @"|" + FRACTION_PATTERN + @"|" + INTEGER_PATTERN + ")";
 
+        //String for regex of units
         private static string EndOfUnitPattern =@"(?i)(?=\s+|$|\))";
         private static string SPattern = @"(?:\(s\)|s?)";
         private static string CupPattern = $@"(?i)(?:(?:cup{SPattern})|c){EndOfUnitPattern}";
@@ -35,16 +37,10 @@ namespace RecipeConverterClasses
             this.multiplier = multiplier;
         }
 
-
-        /// <summary>
-        /// The Read method reads text for a Measurement 
-        /// </summary>
-        /// <returns>Measurement found in text or null if not found</returns>
+        
         public string ConvertLine()
         {
-            text = Regex.Replace(text, PATTERN, m => Replace(m));
-            return "\u2022" + " " + text;
-
+            return Regex.Replace(text, PATTERN, m => Replace(m));
         }
 
         private string Replace(Match match)
@@ -128,23 +124,6 @@ namespace RecipeConverterClasses
             }
             throw new ArgumentException("Provided string does not contain number.");
             
-        }
-        private static RecipeFraction GetFractionFromMatch(Match match)
-        {
-            if (match.Groups["mixed_fraction"].Success)
-            {
-                return GetMixedFractionAsFraction(match);
-            }
-            else if (match.Groups["fraction"].Success)
-            {
-                return GetFractionAsFraction(match);
-            }
-            else
-            {
-                return GetIntegerAsFraction(match);
-            }
-
-
         }
 
         private static RecipeFraction GetMixedFractionAsFraction(Match match)
