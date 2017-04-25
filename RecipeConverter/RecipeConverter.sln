@@ -10,8 +10,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeConverter", "RecipeCo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeConverterClasses", "..\RecipeConverterClasses\RecipeConverterClasses\RecipeConverterClasses.csproj", "{E0AFECCA-A052-4E3B-9F57-93D6A9E6D8BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeConverterClassesTests", "..\RecipeConverterClasses\RecipeConverterClassesTests\RecipeConverterClassesTests.csproj", "{F1AD489C-E7F4-4B86-B179-903767C4790E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,10 +24,6 @@ Global
 		{E0AFECCA-A052-4E3B-9F57-93D6A9E6D8BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0AFECCA-A052-4E3B-9F57-93D6A9E6D8BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0AFECCA-A052-4E3B-9F57-93D6A9E6D8BD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F1AD489C-E7F4-4B86-B179-903767C4790E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1AD489C-E7F4-4B86-B179-903767C4790E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1AD489C-E7F4-4B86-B179-903767C4790E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1AD489C-E7F4-4B86-B179-903767C4790E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
