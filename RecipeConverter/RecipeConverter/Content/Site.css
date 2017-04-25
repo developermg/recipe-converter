@@ -4,11 +4,18 @@ body {
     padding-bottom: 20px;
 }
 
+.col-lg-3, .col-lg-9 {
+    top: auto;
+}
+
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+}
+.button-row{
+    margin-right: 2px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -37,10 +44,13 @@ input[type="select"] {
     }
 }
 
+
 #mainDiv{
-    margin-top:20px;
+    margin-top:10px;
 }
-.centered {
-    margin: 0 auto;
-    display: block;
+.well{
+    padding-bottom:0px
+}
+footer{
+    height:5px;
 }

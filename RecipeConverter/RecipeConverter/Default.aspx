@@ -6,9 +6,8 @@
     <div class="container">
         <div class="row" id="mainDiv">
             <div class="col-lg-6">
-                <div class="well bs-component">
+                <div class="well bs-component form-horizontal">
                     
-                    <div class="form-horizontal">
                         <fieldset>
                             <legend>Original Recipe</legend>
                             <div class="form-group">
@@ -33,7 +32,7 @@
                                     <asp:TextBox ID="DesiredServingsText" CssClass="form-control" runat="server" ToolTip="Enter the desired serving size" TextMode="Number"></asp:TextBox>
                                     <asp:RangeValidator ControlToValidate="DesiredServingsText" runat="server" Type="Integer"
                                         MinimumValue="1" MaximumValue="100" ErrorMessage="Desired servings must be between 1 and 100" display="dynamic" ForeColor="#d9534f"></asp:RangeValidator>
-                                    <asp:RequiredFieldValidator ControlToValidate="DesiredServingsText" runat="server" ErrorMessage="Desired servings required" display="dynamic" ForeColor="#d9534f"></asp:RequiredFieldValidator>
+                                    <asp:RequiredFieldValidator ControlToValidate="DesiredServingsText" runat="server" ErrorMessage="Desired servings required" display="dynamic" ForeColor="#d9534f"/>
 
                                 </div>
                             </div>
@@ -46,13 +45,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-lg-4 col-lg-offset-4">
-                                    <button type="reset" class="btn btn-default">Clear</button>
-                                    <asp:Button ID="SubmitButton" runat="server" Text="Submit" OnClick="SubmitButton_Click" class="btn btn-primary" />
+                                <div class="col-lg-9 col-lg-offset-3" id="buttons">
+                                    <asp:Button ID="ResetButton" runat="server" Text="Clear" OnClick="ResetButton_Click" CausesValidation="false" class="col-lg-offset-3 col-lg-3 btn btn-default button-row" />
+                                    <asp:Button ID="SubmitButton" runat="server" Text="Submit" OnClick="SubmitButton_Click" class="col-lg-3 btn btn-primary button-row" />
                                 </div>
                             </div>
                         </fieldset>
-                    </div>
+                  
                 </div>
             </div>
             <div class="col-md-4">

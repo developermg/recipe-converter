@@ -10,9 +10,10 @@ namespace RecipeConverterApp
 {
     public partial class _Default : Page
     {
+        
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            //ResetButton.Attributes.Add("onClick","this.form.reset();return false;");
         }
 
         protected void SubmitButton_Click(object sender, EventArgs e)
@@ -20,6 +21,15 @@ namespace RecipeConverterApp
             Submit();
         }
 
+        protected void ResetButton_Click(object sender, EventArgs e)
+        {
+            ResetWholePage();
+        }
+
+        private void ResetWholePage()
+        {
+            Response.Redirect(Request.Url.PathAndQuery, true);
+        }
         protected void Submit()
         {
             int desiredServings, originalServings;
