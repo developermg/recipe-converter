@@ -17,14 +17,14 @@ namespace RecipeConverterClasses
         private const string RANGE_PATTERN = "(?<range>" + NUMBER_PATTERN + @"(\s*)-(\s*)" + NUMBER_PATTERN + ")";
         private const string NUMBER_PATTERN = "(?<number>" + MIXED_FRACTION_PATTERN + @"|" + FRACTION_PATTERN + @"|" + INTEGER_PATTERN + ")";
 
-        private static string EndOfUnitPattern = @"(?i)(?:\s+|%)";
+        private static string EndOfUnitPattern =@"(?i)(?=\s+|$|\))";//@"(?<endChar>\W)";  @"?=\W";
         private static string SPattern = @"(?:\(s\)|s?)";
         private static string CupPattern = $@"(?i)(?:(?:cup{SPattern})|c){EndOfUnitPattern}";
         private static string TbspPattern = $@"(?i)(?:(?:tablespoon{SPattern})|(?:tbsp{SPattern})|(?:(?-i)T)){EndOfUnitPattern}";
         private static string TspPattern = $@"(?i)(?:(?:teaspoon{SPattern})|(?:tsp{SPattern})|(?:(?-i)t)){EndOfUnitPattern}";
-        private static string OtherIngPattern = $@"(?:(?!(?:TABLESPOON|TEASPOON|CUP){SPattern})(?<word>\w))";
+        private static string OtherIngPattern = @"(?=\s\w)"; //$@"(?:(?!(?:TABLESPOON|TEASPOON|CUP){SPattern})(?=\w))";
 
-        private string PATTERN = $@"(?:{RANGE_PATTERN}|{NUMBER_PATTERN})\s(?<unit>{CupPattern}|{TbspPattern}|{TspPattern}|{OtherIngPattern})";
+        private string PATTERN = $@"(?:{RANGE_PATTERN}|{NUMBER_PATTERN})(?<unit>\s{CupPattern}|\s{TbspPattern}|\s{TspPattern}|{OtherIngPattern})";
         // private const string OTHER_ING_PATTERN = NUMBER_PATTERN_STRING + @"\w+");
         private string text;
         private NonNegativeFraction multiplier;
@@ -55,12 +55,16 @@ namespace RecipeConverterClasses
         private string Replace(Match match)
         {
             Unit unit = GetUnitFromMatch(match);
-            string replacement = Replace(match, unit) + " ";
-            if (unit == Unit.OTHER)
+            if (Regex.Match(match.Value, RANGE_PATTERN).Success)
             {
-                replacement += match.Groups["word"];
+                //replace 2 parts of it
+               // match.Groups["number"].Captures[0].
+                return "RANGE FOUND";
             }
-            return replacement;
+            else {
+                return Replace(match, unit);
+            }
+          
         }
 
         private static Unit GetUnitFromMatch(Match match)
@@ -102,20 +106,15 @@ namespace RecipeConverterClasses
         }
         private string Replace(Match match, Unit unit)
         {
-            if (Regex.Match(match.Value, RANGE_PATTERN).Success)
-            {
-                //replace 2 parts of it
-                return "RANGE FOUND";
-            }
-            else
-            {
+            
+           
                 RecipeFraction fraction = GetFractionFromMatch(match);
                 fraction*=(multiplier);
                 Measurement measurement = new Measurement(fraction, unit);
                 ICollection<Measurement> measurements = measurement.UserFriendlyMeasurements();
                 string replacement = String.Join(" + ", measurements.Select(i => i.ToHTMLFormattedString()));
                 return replacement;
-            }
+            
            
         }
         private static RecipeFraction GetFractionFromMatch(Match match)
