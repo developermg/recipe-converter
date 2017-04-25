@@ -101,10 +101,6 @@ namespace RecipeConverterClasses
             Amount*=(multiplier);
         }
 
-        public void DivideBy(Fraction divisor)
-        {
-            Amount/=(divisor);
-        }
 
         public ICollection<Measurement> UserFriendlyMeasurements()
         {

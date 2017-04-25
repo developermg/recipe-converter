@@ -17,12 +17,12 @@ namespace RecipeConverterClasses
         private const string RANGE_PATTERN = "(?<range>" + NUMBER_PATTERN + @"(\s*)-(\s*)" + NUMBER_PATTERN + ")";
         private const string NUMBER_PATTERN = "(?<number>" + MIXED_FRACTION_PATTERN + @"|" + FRACTION_PATTERN + @"|" + INTEGER_PATTERN + ")";
 
-        private static string EndOfUnitPattern =@"(?i)(?=\s+|$|\))";//@"(?<endChar>\W)";  @"?=\W";
+        private static string EndOfUnitPattern =@"(?i)(?=\s+|$|\))";
         private static string SPattern = @"(?:\(s\)|s?)";
         private static string CupPattern = $@"(?i)(?:(?:cup{SPattern})|c){EndOfUnitPattern}";
         private static string TbspPattern = $@"(?i)(?:(?:tablespoon{SPattern})|(?:tbsp{SPattern})|(?:(?-i)T)){EndOfUnitPattern}";
         private static string TspPattern = $@"(?i)(?:(?:teaspoon{SPattern})|(?:tsp{SPattern})|(?:(?-i)t)){EndOfUnitPattern}";
-        private static string OtherIngPattern = @"(?=\s\w)"; //$@"(?:(?!(?:TABLESPOON|TEASPOON|CUP){SPattern})(?=\w))";
+        private static string OtherIngPattern = @"(?=\s\w)";
 
         private string PATTERN = $@"(?:{RANGE_PATTERN}|{NUMBER_PATTERN})(?<unit>\s{CupPattern}|\s{TbspPattern}|\s{TspPattern}|{OtherIngPattern})";
         private string text;
