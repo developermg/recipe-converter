@@ -5,10 +5,15 @@ using System.Web;
 
 namespace RecipeConverterClasses
 {
+    /// <summary>
+    /// The USVolumeMeasurement class holds measurements for which the unit is US volume unit-size 
+    /// Cups, tablespoons and teaspoons supported
+    /// </summary>
     public class USVolumeMeasurement : Measurement
     {
         public USVolumeMeasurement(RecipeFraction fraction, Unit unit) : base(fraction, unit)
         {
+            //must be allowed unit
             if (!(unit == Unit.CUP || unit == Unit.TABLESPOON || unit == Unit.TEASPOON))
             {
                 throw new UnsupportedUnitException("Non-volume unit provided for USVolumeMeasurement");
@@ -17,7 +22,7 @@ namespace RecipeConverterClasses
 
         /// <summary>
         /// The UserFriendlyMeasurements method returns a collection of measurements 
-        /// that is the user-friendly equivelant of the current measurement
+        /// that is the user-friendly equivelant of the current USVolumeMeasurement
         /// </summary>
         /// <returns></returns>
         public override ICollection<Measurement> UserFriendlyMeasurements()
