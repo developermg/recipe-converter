@@ -156,6 +156,7 @@ namespace RecipeConverterClasses
                     convertedMeasurements = tCupMeasurements;
                 }
             }
+            OptimizeMeasurements(convertedMeasurements);
             return convertedMeasurements;
         }
 
@@ -309,6 +310,33 @@ namespace RecipeConverterClasses
             return Fraction.Div(teaspoons.Copy(), new Fraction(3, 2));
         }
 
+        /// <summary>
+        /// The OptimizeMeasurements method modifies a collection of common measurements to make it easier for kitchen use
+        /// </summary>
+        /// <param name="measurements">ICollection of Measurements</param>
+        private static void OptimizeMeasurements(ICollection<Measurement> measurements)
+        {
+            //if only 1/2 a tablespoon and has teaspoons, better to take out the tablespoons and turn have 1 1/2 more teaspoons
+            int size = measurements.Count;
+            if (size > 1)
+            {
+                Measurement secondToLast = measurements.ElementAt(size - 2);
+                /* check if second-to-last element is tablespoon 
+                 (if it is, the last one is teaspoons because it is the only unit less than tablespoons) */
+                if (secondToLast.UnitSize == Unit.TABLESPOON) 
+                {
+                    if (secondToLast.Amount.Equals(new Fraction(1, 2))) //if tablespoons is 1/2 (don't have to use EqualsValue because it has been simplified)
+                    {
+                        Measurement teaspoons = measurements.ElementAt(size - 1);
+                        teaspoons.Amount += new Fraction(RecipeConstants.TSP_PER_TBSP, 2);
+                        teaspoons.Amount.Simplify();
+                        
+                        measurements.Remove(secondToLast);
+                    }
+                   
+                }
+            }
+        }
         /// <summary>
         /// The ToString method returns a string representation of the Measurement
         /// </summary>
