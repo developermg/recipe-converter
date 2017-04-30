@@ -33,3 +33,5 @@ C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClasses\bi
 C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClasses\obj\Debug\RecipeConverterClasses.dll
 C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClasses\obj\Debug\RecipeConverterClasses.pdb
 C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClasses\obj\Debug\RecipeConverterClasses.csprojResolveAssemblyReference.cache
+C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClasses\bin\Debug\RecipeConverterClasses.dll.CodeAnalysisLog.xml
+C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClasses\bin\Debug\RecipeConverterClasses.dll.lastcodeanalysissucceeded

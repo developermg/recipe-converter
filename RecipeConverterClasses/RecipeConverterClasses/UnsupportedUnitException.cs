@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RecipeConverterClasses
 {
-public class UnsupportedUnitException : Exception
+[Serializable] public class UnsupportedUnitException : Exception 
     {
         public UnsupportedUnitException() { }
         public UnsupportedUnitException(string message) : base(message) { }
