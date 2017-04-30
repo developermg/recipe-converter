@@ -87,11 +87,20 @@ namespace RecipeConverterClasses
         /// <returns></returns>
         private string GetMeasurementReplacement(String amount, Unit unit)
         {
+            Measurement measurement;
             //gets the measurement as a fraction
             RecipeFraction fraction = GetFraction(amount);
             //perform the actual recipe conversion
             fraction *= multiplier;
-            Measurement measurement = new Measurement(fraction, unit);
+            if (unit == Unit.OTHER)
+            {
+                measurement = new OtherMeasurement(fraction);
+            }
+            else
+            {
+                  measurement= new USVolumeMeasurement(fraction, unit);
+            }
+           
             //get user-friendly version of converted measurement
             ICollection<Measurement> measurements = measurement.UserFriendlyMeasurements();
             return String.Join(" + ", measurements.Select(i => i.ToHTMLFormattedString()));
