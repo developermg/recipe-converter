@@ -13,7 +13,7 @@ namespace RecipeConverterClasses
     {
         public USVolumeMeasurement(RecipeFraction fraction, Unit unit) : base(fraction, unit)
         {
-            //must be allowed unit
+            //must be a US volume unit
             if (!(unit == Unit.CUP || unit == Unit.TABLESPOON || unit == Unit.TEASPOON))
             {
                 throw new UnsupportedUnitException("Non-volume unit provided for USVolumeMeasurement");
