@@ -11,7 +11,8 @@ namespace RecipeConverterClasses
     {
         //Strings Regex for numbers:
         private const string INTEGER_PATTERN = @"(?<integer>\d+)";
-        private const string SLASH_FRACTION_PATTERN = @"(?<slash_fraction>" + INTEGER_PATTERN + @"/" + INTEGER_PATTERN + @")";
+        private const string SLASHES = @"(?:\u2044|\u002F|\u2215|[\u0337-\u0338])"; //different slash characters
+        private const string SLASH_FRACTION_PATTERN = @"(?<slash_fraction>" + INTEGER_PATTERN + SLASHES + INTEGER_PATTERN + @")";
         private const string UNICODE_FRACTION_PATTERN = @"(?<unicode_fraction>[\u00BC-\u00BE]|[\u2150-\u215E])";
         private const string FRACTION_PATTERN = @"(?<fraction>" + UNICODE_FRACTION_PATTERN + @"|" + SLASH_FRACTION_PATTERN + @")";
         private const string MIXED_FRACTION_PATTERN = "(?<mixed_fraction>" + INTEGER_PATTERN + @"(?:\s*)" + FRACTION_PATTERN + ")";
@@ -19,7 +20,7 @@ namespace RecipeConverterClasses
         private const string NUMBER_PATTERN = "(?<number>" + MIXED_FRACTION_PATTERN + @"|" + FRACTION_PATTERN + @"|" + INTEGER_PATTERN + ")";
 
         //String for regex of units
-        private static string EndOfUnitPattern = @"(?i)(?=\s+|$|\))";
+        private static string EndOfUnitPattern = @"(?i)(?=$|\W)"; //after the unit must be end of line or a non-word character
         private static string SPattern = @"(?:\(s\)|s?)";
         private static string CupPattern = $@"(?i)(?:(?:cup{SPattern})|c){EndOfUnitPattern}";
         private static string TbspPattern = $@"(?i)(?:(?:tablespoon{SPattern})|(?:tbsp{SPattern})|(?:(?-i)T)){EndOfUnitPattern}";
