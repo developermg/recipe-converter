@@ -10,11 +10,6 @@ namespace RecipeConverterApp
 {
     public partial class _Default : Page
     {
-        
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            //ResetButton.Attributes.Add("onClick","this.form.reset();return false;");
-        }
 
         protected void SubmitButton_Click(object sender, EventArgs e)
         {
@@ -41,7 +36,7 @@ namespace RecipeConverterApp
             {
                 try
                 {
-                    ResizedVersionLabel.Text = ConvertRecipe(IngredientsText.Text, desiredServings, originalServings).Replace("\r\n", "<br/>");
+                    ResizedVersionLabel.Text = "Servings: " + desiredServings + "<br/>" + ConvertRecipe(IngredientsText.Text, desiredServings, originalServings); //.Replace("\r\n", "<br/>");
 
                 }
                 catch(Exception ex)
@@ -53,7 +48,6 @@ namespace RecipeConverterApp
             {
                 DisplayError("Invalid serving size entered.");
             }
-            //ResizedVersionLabel.Text = IngredientsText.Text.Replace("\r\n", "<br />");
         }
 
         private string ConvertRecipe(string ingredients, int desiredServings, int originalServings)

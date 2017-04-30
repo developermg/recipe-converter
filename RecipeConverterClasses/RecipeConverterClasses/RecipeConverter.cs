@@ -53,7 +53,7 @@ namespace RecipeConverterClasses
                 {
                     if (convertedRecipe.Length != 0)
                     {
-                        convertedRecipe.Append(Environment.NewLine);
+                        convertedRecipe.Append("<br/>");
                     }
                     convertedRecipe.Append(ConvertLine(line));
                 }
@@ -62,7 +62,7 @@ namespace RecipeConverterClasses
             //Handles exception thrown by StringBuilder when it reaches maximum capacity
             catch (ArgumentOutOfRangeException e)
             {
-                return convertedRecipe.ToString() + Environment.NewLine + "-------RECIPE TERMINATED-------";
+                return convertedRecipe.ToString() + "<br/>" + "-------RECIPE TERMINATED-------";
             }
         }
 

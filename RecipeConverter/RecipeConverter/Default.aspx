@@ -22,7 +22,7 @@
                                 <div class="col-lg-9">
                                     <asp:TextBox ID="OriginalServingsText" CssClass="form-control" runat="server" ToolTip="Enter the original serving size" TextMode="Number"></asp:TextBox>
                                     <asp:RangeValidator ControlToValidate="OriginalServingsText" runat="server" Type="Integer"
-                                        MinimumValue="1" MaximumValue="100" ErrorMessage="Original servings must be between 1 and 100" display="dynamic" ForeColor="#d9534f"></asp:RangeValidator>
+                                        MinimumValue="1" MaximumValue="1000" ErrorMessage="Original servings must be between 1 and 1000" display="dynamic" ForeColor="#d9534f"></asp:RangeValidator>
                                     <asp:RequiredFieldValidator ControlToValidate="OriginalServingsText" runat="server" ErrorMessage="Original servings required" display="dynamic" ForeColor="#d9534f"></asp:RequiredFieldValidator>
                                 </div>
                             </div>
@@ -31,7 +31,7 @@
                                 <div class="col-lg-9">
                                     <asp:TextBox ID="DesiredServingsText" CssClass="form-control" runat="server" ToolTip="Enter the desired serving size" TextMode="Number"></asp:TextBox>
                                     <asp:RangeValidator ControlToValidate="DesiredServingsText" runat="server" Type="Integer"
-                                        MinimumValue="1" MaximumValue="100" ErrorMessage="Desired servings must be between 1 and 100" display="dynamic" ForeColor="#d9534f"></asp:RangeValidator>
+                                        MinimumValue="1" MaximumValue="1000" ErrorMessage="Desired servings must be between 1 and 1000" display="dynamic" ForeColor="#d9534f"></asp:RangeValidator>
                                     <asp:RequiredFieldValidator ControlToValidate="DesiredServingsText" runat="server" ErrorMessage="Desired servings required" display="dynamic" ForeColor="#d9534f"/>
 
                                 </div>
