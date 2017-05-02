@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="RecipeConverterClasses.Fraction" Collapsed="true">
+    <Position X="4.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAgAAAAAgAAAQk4AUiBAAAIhACEAQAIASAAAAAACA=</HashCode>
+      <FileName>Fraction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="RecipeConverterClasses.Measurement" Collapsed="true">
+    <Position X="7" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAAAAAAAAAEAAAAAACAAgAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Measurement.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Amount" />
+      <Property Name="UnitSize" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="RecipeConverterClasses.MeasurementConverter" Collapsed="true">
+    <Position X="4" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>QAAAADAAAAAAEAAGAuhEASAAEQAACAAIIAADIAAJAAE=</HashCode>
+      <FileName>MeasurementConverter.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="multiplier" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="RecipeConverterClasses.NonNegativeFraction" Collapsed="true">
+    <Position X="4.25" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAIAgAAAAAgAAAAAYAUCAAAAAgAAAAAAIACAAAAAAAA=</HashCode>
+      <FileName>NonNegativeFraction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RecipeConverterClasses.OtherMeasurement" Collapsed="true">
+    <Position X="7.25" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAEAAAAAAAAAgAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>OtherMeasurement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RecipeConverterClasses.RecipeConstants" Collapsed="true">
+    <Position X="9.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAEAAAQAAAAABAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RecipeConstants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RecipeConverterClasses.RecipeConverter" Collapsed="true">
+    <Position X="1.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAIAAAAAAAAAAIQAAAAAAIAAAAAA=</HashCode>
+      <FileName>RecipeConverter.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_multiplier" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="RecipeConverterClasses.RecipeFraction" Collapsed="true">
+    <Position X="4.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEYAUAAAAAAgAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>RecipeFraction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RecipeConverterClasses.UnsupportedUnitException" Collapsed="true">
+    <Position X="9.25" Y="2" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UnsupportedUnitException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RecipeConverterClasses.USVolumeMeasurement" Collapsed="true">
+    <Position X="9.75" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQBAACAAAAAAQAkEAABAEQAAgAACAQADAAAACABAAA=</HashCode>
+      <FileName>VolumeMeasurement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Unit" Collapsed="true">
+    <Position X="7" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAAAAACQAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Unit.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

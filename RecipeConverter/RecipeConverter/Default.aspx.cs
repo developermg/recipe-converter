@@ -36,7 +36,7 @@ namespace RecipeConverterApp
             {
                 try
                 {
-                    ResizedVersionLabel.Text = "Servings: " + desiredServings + "<br/>" + ConvertRecipe(IngredientsText.Text, desiredServings, originalServings); //.Replace("\r\n", "<br/>");
+                    ResizedVersionLabel.Text = "<i>Servings: " + desiredServings + "</i><br/>" + ConvertRecipe(IngredientsText.Text, desiredServings, originalServings); //.Replace("\r\n", "<br/>");
 
                 }
                 catch(Exception ex)

@@ -22,9 +22,10 @@ namespace RecipeConverterClasses
         //String for regex of units
         private static string EndOfUnitPattern = @"(?i)(?=$|\W)"; //after the unit must be end of line or a non-word character
         private static string SPattern = @"(?:\(s\)|s?)";
-        private static string CupPattern = $@"(?i)(?:(?:cup{SPattern})|c){EndOfUnitPattern}";
-        private static string TbspPattern = $@"(?i)(?:(?:tablespoon{SPattern})|(?:tbsp{SPattern})|(?:(?-i)T)){EndOfUnitPattern}";
-        private static string TspPattern = $@"(?i)(?:(?:teaspoon{SPattern})|(?:tsp{SPattern})|(?:(?-i)t)){EndOfUnitPattern}";
+        private static string OptionalPeriod = @"(?:\.?)";
+        private static string CupPattern = $@"(?i)(?:(?:cup{SPattern})|c{OptionalPeriod}){EndOfUnitPattern}";
+        private static string TbspPattern = $@"(?i)(?:(?:tablespoon{SPattern})|(?:tbsp{SPattern}{OptionalPeriod})|(?:(?-i)T{OptionalPeriod})){EndOfUnitPattern}";
+        private static string TspPattern = $@"(?i)(?:(?:teaspoon{SPattern})|(?:tsp{SPattern}{OptionalPeriod})|(?:(?-i)t{OptionalPeriod})){EndOfUnitPattern}";
         private static string OtherIngPattern = @"(?=\s\w)";
 
         //Pattern for measurements

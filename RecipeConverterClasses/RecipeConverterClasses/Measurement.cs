@@ -9,9 +9,8 @@ namespace RecipeConverterClasses
 
     public abstract class Measurement
     {
-        private RecipeFraction _amount; //numeric part of measurement
-        private Unit _unitSize;         //unit of measurement
-
+        private RecipeFraction _amount;
+        private Unit _unitSize;
         /// <summary>
         /// Constructor
         /// </summary>
