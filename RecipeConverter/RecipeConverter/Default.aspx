@@ -21,7 +21,7 @@
                                 <label for="OriginalServingsText" class="col-lg-3 control-label">Original Servings</label>
                                 <div class="col-lg-9">
                                     <asp:TextBox ID="OriginalServingsText" CssClass="form-control" runat="server" ToolTip="Enter the original serving size" TextMode="Number"></asp:TextBox>
-                                    <asp:RangeValidator ControlToValidate="OriginalServingsText" runat="server" Type="Integer"
+                                    <asp:RangeValidator ControlToValidate="OriginalServingsText" runat="server" Type="Double"
                                         MinimumValue="1" MaximumValue="1000" ErrorMessage="Original servings must be between 1 and 1000" display="dynamic" ForeColor="#d9534f"></asp:RangeValidator>
                                     <asp:RequiredFieldValidator ControlToValidate="OriginalServingsText" runat="server" ErrorMessage="Original servings (numeric value) required" display="dynamic" ForeColor="#d9534f"></asp:RequiredFieldValidator>
                                 </div>
@@ -30,7 +30,7 @@
                                 <label for="DesiredServingsText" class="col-lg-3 control-label">Desired Servings</label>
                                 <div class="col-lg-9">
                                     <asp:TextBox ID="DesiredServingsText" CssClass="form-control" runat="server" ToolTip="Enter the desired serving size" TextMode="Number"></asp:TextBox>
-                                    <asp:RangeValidator ControlToValidate="DesiredServingsText" runat="server" Type="Integer"
+                                    <asp:RangeValidator ControlToValidate="DesiredServingsText" runat="server" Type="Double"
                                         MinimumValue="1" MaximumValue="1000" ErrorMessage="Desired servings must be between 1 and 1000" display="dynamic" ForeColor="#d9534f"></asp:RangeValidator>
                                     <asp:RequiredFieldValidator ControlToValidate="DesiredServingsText" runat="server" ErrorMessage="Desired servings (numeric value) required" display="dynamic" ForeColor="#d9534f"/>
 

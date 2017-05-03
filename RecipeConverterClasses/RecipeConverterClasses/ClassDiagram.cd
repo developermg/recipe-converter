@@ -8,15 +8,15 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="RecipeConverterClasses.Measurement" Collapsed="true">
+  <Class Name="RecipeConverterClasses.Measurement">
     <Position X="7" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQCAAAAAAAAAAAEAAAAAACAAgAAAAQAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAQDAAAAAAAAAAAEAAAAAACAAgAAAAQAAABAAAAAAAA=</HashCode>
       <FileName>Measurement.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Amount" />
-      <Property Name="UnitSize" />
+      <Field Name="_amount" />
+      <Field Name="_unitSize" />
     </ShowAsAssociation>
   </Class>
   <Class Name="RecipeConverterClasses.MeasurementConverter" Collapsed="true">
@@ -37,7 +37,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="RecipeConverterClasses.OtherMeasurement" Collapsed="true">
-    <Position X="7.25" Y="3.75" Width="1.75" />
+    <Position X="8" Y="6.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAEAAAAAAAAAgAAAAQAAAAAAAAAAAA=</HashCode>
       <FileName>OtherMeasurement.cs</FileName>
