@@ -5,6 +5,6 @@
     <h3>For more information.</h3>
 
     <address>
-        <strong>   <a href="mailto:recipeconverterapp@gmail.com">meiracgoldberg@gmail.com</a></strong><br />
+        <strong>   <a href="mailto:recipeconverterapp@gmail.com">recipeconverterapp@gmail.com</a></strong><br />
     </address>
 </asp:Content>
