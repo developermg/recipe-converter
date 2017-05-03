@@ -1,0 +1,4 @@
+C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClasses\bin\Release\RecipeConverterClasses.dll
+C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClasses\bin\Release\RecipeConverterClasses.pdb
+C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClasses\obj\Release\RecipeConverterClasses.dll
+C:\Users\meira\Documents\Thesis\RecipeConverterClasses\RecipeConverterClasses\obj\Release\RecipeConverterClasses.pdb

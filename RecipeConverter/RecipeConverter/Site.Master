@@ -12,7 +12,8 @@
         <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>
     <webopt:bundlereference runat="server" path="~/Content/css" />
-    <link href="~/ic_cake_black_24dp_2x.png" rel="shortcut icon" type="image/x-icon" />
+    
+     <link href="~/x2icon.png" rel="shortcut icon" type="image/x-icon" />
 
 </head>
 <body>
@@ -58,7 +59,7 @@
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - MeiraGoldberg Recipe Converter </p>
+                <p>&copy; <%: DateTime.Now.Year %> - Recipe Converter </p>
             </footer>
         </div>
     </form>
