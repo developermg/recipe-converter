@@ -113,7 +113,15 @@ namespace RecipeConverterClasses
             //if there was a plus after the measurement amount, indicate that in the replacement text
             if (Regex.Match(amount, PLUS_PATTERN).Success) 
             {
-                replacement = "[" + replacement + "]<b>+</b>";
+                //if more than one measurement, need to indicate that the 'plus' at the end refers to the combined group of measurements
+                if (measurements.Count > 1) {
+                    replacement = "[" + replacement + "]<b>+</b>";
+                }
+                else
+                {
+                    replacement += "+"; //does not need to be bold if only one measurement 
+                }
+               
             }
 
             return replacement;
