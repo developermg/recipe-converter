@@ -27,10 +27,10 @@ namespace RecipeConverterClasses
         private static string CupPattern = $@"(?i)(?:(?:cup{SPattern})|c{OptionalPeriod}){EndOfUnitPattern}";
         private static string TbspPattern = $@"(?i)(?:(?:tablespoon{SPattern})|(?:tbsp{SPattern}{OptionalPeriod})|(?:(?-i)T{OptionalPeriod})){EndOfUnitPattern}";
         private static string TspPattern = $@"(?i)(?:(?:teaspoon{SPattern})|(?:tsp{SPattern}{OptionalPeriod})|(?:(?-i)t{OptionalPeriod})){EndOfUnitPattern}";
-        private const string OtherIngPattern = @"(?=\w)";
+        private const string OtherIngPattern = @"(?=\s*\w)"; //optional space in lookahead causes the space not to be 'swallowed' if there is one
 
         //Pattern for measurements
-        private string PATTERN = $@"(?:{RANGE_PATTERN}|{NUMBER_PATTERN})(?<unit>{CupPattern}|{TbspPattern}|{TspPattern}|{OtherIngPattern})";
+        private string PATTERN = $@"(?:{RANGE_PATTERN}|{NUMBER_PATTERN})(?<unit>\s*{CupPattern}|\s*{TbspPattern}|\s*{TspPattern}|{OtherIngPattern})"; //optional spaces before unit name, except for 'other' becuase has optional space in lookahead
         
         //text in which to find and replace measurements
         private string text;
