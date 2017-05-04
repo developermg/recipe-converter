@@ -27,8 +27,8 @@ namespace RecipeConverterClasses
         /// <returns></returns>
         public override ICollection<Measurement> UserFriendlyMeasurements()
         {
-                RecipeFraction teaspoons = GetAsTeaspoons();
-                return TeaspoonsToUserFriendlyMeasurements(teaspoons);
+            RecipeFraction teaspoons = GetAsTeaspoons();
+            return TeaspoonsToUserFriendlyMeasurements(teaspoons);
         }
 
         /// <summary>
@@ -280,25 +280,50 @@ namespace RecipeConverterClasses
         /// <param name="measurements">ICollection of Measurements</param>
         private static void OptimizeMeasurements(ICollection<Measurement> measurements)
         {
-            //if only 1/2 a tablespoon and has teaspoons, better to take out the tablespoons and turn have 1 1/2 more teaspoons
+
             int size = measurements.Count;
             if (size > 1)
             {
-                //can cast as USVolumeMeasurement because was created in this class. List is of type Measurement to be usable across multiple types of measurements
+                //can cast as USVolumeMeasurement because know it is--was created in this class. List is of type Measurement to be usable across multiple types of measurements
                 USVolumeMeasurement secondToLast = (USVolumeMeasurement)measurements.ElementAt(size - 2);
                 /* check if second-to-last element is tablespoon 
                  (if it is, the last one is teaspoons because it is the only unit less than tablespoons) */
                 if (secondToLast.UnitSize == Unit.TABLESPOON)
                 {
-                    if (secondToLast.Amount.Equals(new Fraction(1, 2))) //if tablespoons is 1/2 (don't have to use EqualsValue because it has been simplified)
+                    if (secondToLast.Amount.Denominator == 2)
                     {
-                        //can cast as USVolumeMeasurement because was created in this class. List is of type Measurement to be usable across multiple types of measurements
+                        //can cast as USVolumeMeasurement because know it is--was created in this class. List is of type Measurement to be usable across multiple types of measurements
                         USVolumeMeasurement teaspoons = (USVolumeMeasurement)measurements.ElementAt(size - 1);
-                        teaspoons.Amount += new Fraction(RecipeConstants.TSP_PER_TBSP, 2);
-                        teaspoons.Amount.Simplify();
 
-                        measurements.Remove(secondToLast);
+                        //if only 1/2 a tablespoon and has teaspoons, better to take out the tablespoons and turn have 1 1/2 more teaspoons (because more annoying to use more spoons)
+                        if (secondToLast.Amount.Equals(new Fraction(1, 2))) //if tablespoons is 1/2 (don't have to use EqualsValue because it has been simplified)
+                        {
+                            teaspoons.Amount += new Fraction(RecipeConstants.TSP_PER_TBSP, 2);
+                            teaspoons.Amount.Simplify();
+
+                            measurements.Remove(secondToLast);
+                        }
+                        /* 
+                         * If tablespoons is not 1/2, then is greater than 1/2 (only allowed in 1/2 increments),
+                         * and because it has denominator of 2 when simplifed, is X 1/2 tablespoons. 
+                         * If teaspoons is also in half increments, better to use bigger size spoons 
+                         * (less times filling them--better to add one teaspoon than do 3 1/2 tablespoons 
+                         * in 1/2 tablespoon increments or use both 1/2 and 1 tablespoon spoons), 
+                         * so becomes numberOfTablespoons - 1/2 (=whole number) and numberOfTeaspoons + 1/2 (= 2)
+                         * if teaspoons denominator is 2, teaspoons is 1/2, because is simplified (so not 2/2), 
+                         * and any 1/2 increment greater than 1/2 would have yielded 1/2 tablespoons 
+                         * (because 1 1/2 teaspoons = 1 tablespoon)
+                         */
+                        else if (teaspoons.Amount.Denominator == 2)
+                        {
+                            secondToLast.Amount -= new Fraction(1, 2);
+                            teaspoons.Amount += new Fraction(3, 2);
+                            //in case any numbers were unsimplified by adding or checking equivelancy, simplify them
+                            secondToLast.Amount.Simplify();
+                            teaspoons.Amount.Simplify();
+                        }
                     }
+
 
                 }
             }

@@ -28,13 +28,13 @@ namespace RecipeConverterClasses
         /// Getter/setter for numerator
         /// If non-positive value is passed, throws an exception
         /// </summary>
-        protected override int Numerator
+        public override int Numerator
         {
             get
             {
                 return base.Numerator;
             }
-            set
+            protected set
             {
                 if (value >= 0)
                 {
@@ -50,13 +50,13 @@ namespace RecipeConverterClasses
         ///Getter/setter for denominator
         ///If non-positive value is passed, throws exception
         /// </summary>
-        protected override int Denominator
+        public override int Denominator
         {
             get
             {
                 return base.Denominator;
             }
-            set
+            protected set
             {
                 if (value > 0)
                 {

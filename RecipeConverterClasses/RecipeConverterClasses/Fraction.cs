@@ -13,24 +13,24 @@ namespace RecipeConverterClasses
         private int _denominator;
 
         //getters and setters
-        protected virtual int Numerator
+        public virtual int Numerator
         {
             get
             {
                 return _numerator;
             }
-            set
+            protected set
             {
                 _numerator = value;
             }
         }
-        protected virtual int Denominator
+        public virtual int Denominator
         {
             get
             {
                 return _denominator;
             }
-            set
+            protected set
             {
                 _denominator = value;
             }
