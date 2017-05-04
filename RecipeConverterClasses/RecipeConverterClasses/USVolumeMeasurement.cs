@@ -49,7 +49,7 @@ namespace RecipeConverterClasses
                     return Amount.Copy();
 
                 default:
-                    throw new UnsupportedUnitException("Only CUP, TABLESPOON AND TEASPOON can be converted to teaspoons.");
+                    throw new UnsupportedUnitException("Only CUP, TABLESPOON and TEASPOON can be converted to teaspoons.");
 
             }
         }
@@ -311,7 +311,7 @@ namespace RecipeConverterClasses
         public override string ToString()
         {
             //add S to end of unit if more than 1
-            string unitString = Amount.CompareTo(1) > 0 ? UnitSize.ToString() + "S" : UnitSize.ToString();
+            string unitString = Amount.CompareTo(1) > 0 ? UnitSize.ToString().ToLower() + "s" : UnitSize.ToString().ToLower();
             return Amount.ToString() + " " + unitString;
         }
 
@@ -321,7 +321,7 @@ namespace RecipeConverterClasses
         /// <returns>String containing HTML-formatted representation of USVolumeMeasurement </returns>
         public override string ToHTMLFormattedString()
         {
-            string unitString = Amount.CompareTo(1) > 0 ? UnitSize.ToString() + "S" : UnitSize.ToString();
+            string unitString = Amount.CompareTo(1) > 0 ? UnitSize.ToString().ToLower() + "s" : UnitSize.ToString().ToLower();
             return Amount.ToHTMLFormattedString() + " " + unitString;
         }
 
