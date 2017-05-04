@@ -17,8 +17,9 @@ namespace RecipeConverterClasses
         private const string UNICODE_FRACTION_PATTERN = @"(?<unicode_fraction>[\u00BC-\u00BE]|[\u2150-\u215E])";
         private const string FRACTION_PATTERN = @"(?<fraction>" + UNICODE_FRACTION_PATTERN + @"|" + SLASH_FRACTION_PATTERN + @")";
         private const string MIXED_FRACTION_PATTERN = @"(?<mixed_fraction>" + INTEGER_PATTERN + @"(?:\s*)" + FRACTION_PATTERN + ")";
-        private const string NUMBER_PATTERN = @"(?<number>(?<!\w)(?:" + MIXED_FRACTION_PATTERN + @"|" + FRACTION_PATTERN + @"|" + DECIMAL_PATTERN + @"|" + INTEGER_PATTERN + "))"; //can't have a word character before a number
+        private const string NUMBER_PATTERN = @"(?<number>(?<!\w)(?:" + MIXED_FRACTION_PATTERN + @"|" + FRACTION_PATTERN + @"|" + DECIMAL_PATTERN + @"|" + INTEGER_PATTERN + ")(?:"+PLUS_PATTERN+"?))"; //can't have a word character before a number
         private const string RANGE_PATTERN = @"(?<range>" + NUMBER_PATTERN + @"(\s*)-(\s*)" + NUMBER_PATTERN + ")";
+        private const string PLUS_PATTERN = @"\+";
        
         //String for regex of units. Some are static so can use string interpolation
         private const string EndOfUnitPattern = @"(?i)(?=$|\W)"; //after the unit must be end of line or a non-word character
@@ -76,7 +77,7 @@ namespace RecipeConverterClasses
             {
                 /* passes match.Value is valid string of amount even though may contain unit text
                 as well because numeric portions will be extracted and other text ignored */
-                return GetMeasurementReplacement(match.Value, unit);
+                return GetMeasurementReplacement(match.Groups["number"].Value, unit);
             }
 
         }
@@ -107,7 +108,15 @@ namespace RecipeConverterClasses
            
             //get user-friendly version of converted measurement
             ICollection<Measurement> measurements = measurement.UserFriendlyMeasurements();
-            return String.Join(" + ", measurements.Select(i => i.ToHTMLFormattedString()));
+            String replacement= String.Join(" + ", measurements.Select(i => i.ToHTMLFormattedString()));
+
+            //if there was a plus after the measurement amount, indicate that in the replacement text
+            if (Regex.Match(amount, PLUS_PATTERN).Success) 
+            {
+                replacement = "[" + replacement + "]<b>+</b>";
+            }
+
+            return replacement;
         }
 
         /// <summary>
