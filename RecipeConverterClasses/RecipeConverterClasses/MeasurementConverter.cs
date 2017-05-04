@@ -10,26 +10,28 @@ namespace RecipeConverterClasses
     public class MeasurementConverter
     {
         //Strings Regex for numbers:
-        private const string INTEGER_PATTERN = @"(?<integer>\d+)";
+        private const string INTEGER_PATTERN = @"(?<integer>(?<!\.)\d+)"; //cannot have a period before it, because then strings not considered valid as a decimal will be valid integers, such as the 3 in 1.2.3
+        private const string DECIMAL_PATTERN = @"(?<decimal>(?<!(\.\d*))\d*\.\d+)"; //can't have a period before the decimal, or a chained decimal, such as 1..3 or 1.2.3
         private const string SLASHES = @"(?:\u2044|\u002F|\u2215|[\u0337-\u0338])"; //different slash characters
         private const string SLASH_FRACTION_PATTERN = @"(?<slash_fraction>" + INTEGER_PATTERN + SLASHES + INTEGER_PATTERN + @")";
         private const string UNICODE_FRACTION_PATTERN = @"(?<unicode_fraction>[\u00BC-\u00BE]|[\u2150-\u215E])";
         private const string FRACTION_PATTERN = @"(?<fraction>" + UNICODE_FRACTION_PATTERN + @"|" + SLASH_FRACTION_PATTERN + @")";
-        private const string MIXED_FRACTION_PATTERN = "(?<mixed_fraction>" + INTEGER_PATTERN + @"(?:\s*)" + FRACTION_PATTERN + ")";
-        private const string RANGE_PATTERN = "(?<range>" + NUMBER_PATTERN + @"(\s*)-(\s*)" + NUMBER_PATTERN + ")";
-        private const string NUMBER_PATTERN = "(?<number>" + MIXED_FRACTION_PATTERN + @"|" + FRACTION_PATTERN + @"|" + INTEGER_PATTERN + ")";
-
-        //String for regex of units
-        private static string EndOfUnitPattern = @"(?i)(?=$|\W)"; //after the unit must be end of line or a non-word character
-        private static string SPattern = @"(?:\(s\)|s?)";
-        private static string OptionalPeriod = @"(?:\.?)";
+        private const string MIXED_FRACTION_PATTERN = @"(?<mixed_fraction>" + INTEGER_PATTERN + @"(?:\s*)" + FRACTION_PATTERN + ")";
+        private const string NUMBER_PATTERN = @"(?<number>(?<!\w)(?:" + MIXED_FRACTION_PATTERN + @"|" + FRACTION_PATTERN + @"|" + DECIMAL_PATTERN + @"|" + INTEGER_PATTERN + "))"; //can't have a word character before a number
+        private const string RANGE_PATTERN = @"(?<range>" + NUMBER_PATTERN + @"(\s*)-(\s*)" + NUMBER_PATTERN + ")";
+       
+        //String for regex of units. Some are static so can use string interpolation
+        private const string EndOfUnitPattern = @"(?i)(?=$|\W)"; //after the unit must be end of line or a non-word character
+        private const string SPattern = @"(?:\(s\)|s?)";
+        private const string OptionalPeriod = @"(?:\.?)";
         private static string CupPattern = $@"(?i)(?:(?:cup{SPattern})|c{OptionalPeriod}){EndOfUnitPattern}";
         private static string TbspPattern = $@"(?i)(?:(?:tablespoon{SPattern})|(?:tbsp{SPattern}{OptionalPeriod})|(?:(?-i)T{OptionalPeriod})){EndOfUnitPattern}";
         private static string TspPattern = $@"(?i)(?:(?:teaspoon{SPattern})|(?:tsp{SPattern}{OptionalPeriod})|(?:(?-i)t{OptionalPeriod})){EndOfUnitPattern}";
-        private static string OtherIngPattern = @"(?=\s\w)";
+        private const string OtherIngPattern = @"(?=\s\w)";
 
         //Pattern for measurements
         private string PATTERN = $@"(?:{RANGE_PATTERN}|{NUMBER_PATTERN})(?<unit>\s{CupPattern}|\s{TbspPattern}|\s{TspPattern}|{OtherIngPattern})";
+        
         //text in which to find and replace measurements
         private string text;
         //amount by which to multiply measurements
@@ -91,6 +93,7 @@ namespace RecipeConverterClasses
             Measurement measurement;
             //gets the measurement as a fraction
             RecipeFraction fraction = GetFraction(amount);
+           
             //perform the actual recipe conversion
             fraction *= multiplier;
             if (unit == Unit.OTHER)
@@ -163,6 +166,11 @@ namespace RecipeConverterClasses
             {
                 return GetFractionAsFraction(match);
             }
+            match = Regex.Match(str, DECIMAL_PATTERN);
+            if (match.Success)
+            {
+                return GetDecimalAsFraction(match);
+            }
             match = Regex.Match(str, INTEGER_PATTERN);
             if (match.Success)
             {
@@ -187,6 +195,43 @@ namespace RecipeConverterClasses
             return fraction;
         }
 
+
+        private static RecipeFraction GetDecimalAsFraction(Match match)
+        {
+            RecipeFraction fraction = null;
+            String decPartPattern = @"(?<=\.)\d+";
+            String wholePartPattern = @"\d*(?=\.)(?=\d*)";
+            String dec = match.Groups["decimal"].Value;
+            int wholePart;
+            Match wholeMatch = Regex.Match(dec, wholePartPattern);
+            if (wholeMatch.Success)
+            {
+                Int32.TryParse(Regex.Match(dec, wholePartPattern).Value, out wholePart);
+                
+            }
+            else
+            {
+                wholePart = 0;
+            }
+
+            Match decMatch= Regex.Match(dec, decPartPattern);
+            if (decMatch.Success)
+            {
+                String decPartStr = decMatch.Value;
+                int digits = decPartStr.Length;
+                int decPart;
+                Int32.TryParse(decPartStr, out decPart);
+                double denominator = Math.Pow(10, digits);
+                double numerator = wholePart * denominator;
+                numerator += decPart;
+                fraction = new RecipeFraction((int)numerator, (int)denominator);
+                
+
+            }
+            return fraction;
+
+
+        }
         /// <summary>
         /// The GetFractionAsFraction method returns a RecipeFraction representing the fraction contained in a String
         /// </summary>
