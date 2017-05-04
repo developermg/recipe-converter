@@ -57,11 +57,11 @@ namespace RecipeConverterApp
                     ResizedVersionLabel.Text = "<i>Servings: " + desiredServings + "</i><br/>" + ConvertRecipe(IngredientsText.Text, desiredServings, originalServings);
 
                 }
-                //if any Exception is thrown when converteing the recipe, catch it and display an error message.
+                //if any Exception is thrown when converting the recipe, catch it and display an error message.
                 catch(Exception ex)
                 {
                     //display the exception message in small so user can submit the error
-                    DisplayError("Error converting recipe.<small>Exception: " + ex.Message + "</small>");
+                    DisplayError("Error converting recipe.<br/><small>Exception: " + ex.Message + "</small>");
                 }
             }
             else
