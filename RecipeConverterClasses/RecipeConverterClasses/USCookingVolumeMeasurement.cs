@@ -290,6 +290,8 @@ namespace RecipeConverterClasses
                  (if it is, the last one is teaspoons because it is the only unit less than tablespoons) */
                 if (secondToLast.UnitSize == Unit.TABLESPOON)
                 {
+                    //simplify before checking denominator, because otherwise a denominator of 2 does not indicate any halves, as it could be 4/2 
+                    secondToLast.Amount.Simplify();
                     if (secondToLast.Amount.Denominator == 2)
                     {
                         //can cast as USCookingVolumeMeasurement because know it is--was created in this class. List is of type Measurement to be usable across multiple types of measurements
