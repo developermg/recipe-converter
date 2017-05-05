@@ -123,7 +123,7 @@ namespace RecipeConverterClasses
             dividend.DivideBy(divisor);
             return dividend;
         }
-
+        
         /// <summary>
         /// The ToString method returns a string representation of the fractionAddend
         /// </summary>

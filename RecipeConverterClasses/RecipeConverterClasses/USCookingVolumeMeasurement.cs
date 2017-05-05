@@ -6,23 +6,23 @@ using System.Web;
 namespace RecipeConverterClasses
 {
     /// <summary>
-    /// The USVolumeMeasurement class holds measurements for which the unit is US volume unit-size 
+    /// The USCookingVolumeMeasurement class holds measurements for which the unit is US volume unit-size 
     /// Cups, tablespoons and teaspoons supported
     /// </summary>
-    public class USVolumeMeasurement : Measurement
+    public class USCookingVolumeMeasurement : Measurement
     {
-        public USVolumeMeasurement(RecipeFraction fraction, Unit unit) : base(fraction, unit)
+        public USCookingVolumeMeasurement(RecipeFraction fraction, Unit unit) : base(fraction, unit)
         {
             //must be a US volume unit
             if (!(unit == Unit.CUP || unit == Unit.TABLESPOON || unit == Unit.TEASPOON))
             {
-                throw new UnsupportedUnitException("Non-volume unit provided for USVolumeMeasurement");
+                throw new UnsupportedUnitException("Non-volume unit provided for USCookingVolumeMeasurement");
             }
         }
 
         /// <summary>
         /// The UserFriendlyMeasurements method returns a collection of measurements 
-        /// that is the user-friendly equivelant of the current USVolumeMeasurement
+        /// that is the user-friendly equivelant of the current USCookingVolumeMeasurement
         /// </summary>
         /// <returns></returns>
         public override ICollection<Measurement> UserFriendlyMeasurements()
@@ -32,9 +32,9 @@ namespace RecipeConverterClasses
         }
 
         /// <summary>
-        /// The GetAsTeaspoons method gets the equivelant of the USVolumeMeasurement in teaspoons
+        /// The GetAsTeaspoons method gets the equivelant of the USCookingVolumeMeasurement in teaspoons
         /// </summary>
-        /// <returns>RecipeFraction representing number of teaspoons that is the equivelant of this USVolumeMeasurement</returns>
+        /// <returns>RecipeFraction representing number of teaspoons that is the equivelant of this USCookingVolumeMeasurement</returns>
         private RecipeFraction GetAsTeaspoons()
         {
             switch (UnitSize)
@@ -103,11 +103,11 @@ namespace RecipeConverterClasses
                 //If same number of Measurements are returned, use Collection that starts with greater Measurement
                 if (convertedMeasurements.Count == tCupMeasurements.Count)
                 {
-                    /*can cast as USVolumeMeasurement because was created in this class. 
+                    /*can cast as USCookingVolumeMeasurement because was created in this class. 
                     List is of type Measurement to be usable across multiple types of measurements.
                     Casting required to access Amount with its current access modifier and making public is undesirable*/
-                    Fraction qCups = ((USVolumeMeasurement)convertedMeasurements.ElementAt(0)).Amount;
-                    Fraction tCups = ((USVolumeMeasurement)tCupMeasurements.ElementAt(0)).Amount;
+                    Fraction qCups = ((USCookingVolumeMeasurement)convertedMeasurements.ElementAt(0)).Amount;
+                    Fraction tCups = ((USCookingVolumeMeasurement)tCupMeasurements.ElementAt(0)).Amount;
                     if (tCups.CompareTo(qCups) > 0)
                     {
                         convertedMeasurements = tCupMeasurements;
@@ -180,7 +180,7 @@ namespace RecipeConverterClasses
             if (thirdCups > 0)
             {
                 RecipeFraction cups = new RecipeFraction(thirdCups, 3);
-                measurements.Add(new USVolumeMeasurement(cups, Unit.CUP));
+                measurements.Add(new USCookingVolumeMeasurement(cups, Unit.CUP));
                 teaspoons -= (thirdCups * RecipeConstants.TSP_PER_THIRD_CUP);
             }
 
@@ -198,7 +198,7 @@ namespace RecipeConverterClasses
             if (quarterCups > 0)
             {
                 RecipeFraction cups = new RecipeFraction(quarterCups, 4);
-                measurements.Add(new USVolumeMeasurement(cups, Unit.CUP));
+                measurements.Add(new USCookingVolumeMeasurement(cups, Unit.CUP));
                 teaspoons -= (quarterCups * RecipeConstants.TSP_PER_QUARTER_CUP);
             }
 
@@ -210,14 +210,14 @@ namespace RecipeConverterClasses
         /// The half tablespoons are added as a single measurement with a fraction reflecting the number of quarter cups
         /// </summary>
         /// <param name="teaspoons">Fraction representing number of teaspoons</param>
-        /// <param name="measurements">Measurements Collection to which to add half tablespoons USVolumeMeasurement</param>
+        /// <param name="measurements">Measurements Collection to which to add half tablespoons USCookingVolumeMeasurement</param>
         private static void AddHalfTablespoonsToCollection(ref RecipeFraction teaspoons, ICollection<Measurement> measurements)
         {
             int halfTbsp = GetHalfTablespoons(teaspoons);
             if (halfTbsp > 0)
             {
                 RecipeFraction tbsp = new RecipeFraction(halfTbsp, 2);
-                measurements.Add(new USVolumeMeasurement(tbsp, Unit.TABLESPOON));
+                measurements.Add(new USCookingVolumeMeasurement(tbsp, Unit.TABLESPOON));
                 teaspoons -= (new Fraction((halfTbsp * RecipeConstants.TSP_PER_TBSP), 2));
             }
 
@@ -233,7 +233,7 @@ namespace RecipeConverterClasses
 
             if (teaspoons.CompareTo(0) > 0)
             {
-                measurements.Add(new USVolumeMeasurement(teaspoons, Unit.TEASPOON));
+                measurements.Add(new USCookingVolumeMeasurement(teaspoons, Unit.TEASPOON));
             }
 
         }
@@ -284,16 +284,16 @@ namespace RecipeConverterClasses
             int size = measurements.Count;
             if (size > 1)
             {
-                //can cast as USVolumeMeasurement because know it is--was created in this class. List is of type Measurement to be usable across multiple types of measurements
-                USVolumeMeasurement secondToLast = (USVolumeMeasurement)measurements.ElementAt(size - 2);
+                //can cast as USCookingVolumeMeasurement because know it is--was created in this class. List is of type Measurement to be usable across multiple types of measurements
+                USCookingVolumeMeasurement secondToLast = (USCookingVolumeMeasurement)measurements.ElementAt(size - 2);
                 /* check if second-to-last element is tablespoon 
                  (if it is, the last one is teaspoons because it is the only unit less than tablespoons) */
                 if (secondToLast.UnitSize == Unit.TABLESPOON)
                 {
                     if (secondToLast.Amount.Denominator == 2)
                     {
-                        //can cast as USVolumeMeasurement because know it is--was created in this class. List is of type Measurement to be usable across multiple types of measurements
-                        USVolumeMeasurement teaspoons = (USVolumeMeasurement)measurements.ElementAt(size - 1);
+                        //can cast as USCookingVolumeMeasurement because know it is--was created in this class. List is of type Measurement to be usable across multiple types of measurements
+                        USCookingVolumeMeasurement teaspoons = (USCookingVolumeMeasurement)measurements.ElementAt(size - 1);
 
                         //if only 1/2 a tablespoon and has teaspoons, better to take out the tablespoons and turn have 1 1/2 more teaspoons (because more annoying to use more spoons)
                         if (secondToLast.Amount.Equals(new Fraction(1, 2))) //if tablespoons is 1/2 (don't have to use EqualsValue because it has been simplified)
@@ -318,9 +318,6 @@ namespace RecipeConverterClasses
                         {
                             secondToLast.Amount -= new Fraction(1, 2);
                             teaspoons.Amount += new Fraction(3, 2);
-                            //in case any numbers were unsimplified by adding or checking equivelancy, simplify them
-                            secondToLast.Amount.Simplify();
-                            teaspoons.Amount.Simplify();
                         }
                     }
 
@@ -330,9 +327,9 @@ namespace RecipeConverterClasses
         }
 
         /// <summary>
-        /// The ToString method returns a string representation of the USVolumeMeasurement
+        /// The ToString method returns a string representation of the USCookingVolumeMeasurement
         /// </summary>
-        /// <returns>String representation of the USVolumeMeasurement</returns>
+        /// <returns>String representation of the USCookingVolumeMeasurement</returns>
         public override string ToString()
         {
             //add S to end of unit if more than 1
@@ -343,7 +340,7 @@ namespace RecipeConverterClasses
         /// <summary>
         /// The ToHTMLFormattedString method returns a string that includes HTML tags to better display fractions
         /// </summary>
-        /// <returns>String containing HTML-formatted representation of USVolumeMeasurement </returns>
+        /// <returns>String containing HTML-formatted representation of USCookingVolumeMeasurement </returns>
         public override string ToHTMLFormattedString()
         {
             string unitString = Amount.CompareTo(1) > 0 ? UnitSize.ToString().ToLower() + "s" : UnitSize.ToString().ToLower();
@@ -356,7 +353,7 @@ namespace RecipeConverterClasses
         /// <returns>Copy of Measurement object</returns>
         public override Measurement Copy()
         {
-            return new USVolumeMeasurement(Amount.Copy(), UnitSize);
+            return new USCookingVolumeMeasurement(Amount.Copy(), UnitSize);
         }
 
     }

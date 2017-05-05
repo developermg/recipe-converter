@@ -103,7 +103,7 @@ namespace RecipeConverterClasses
             }
             else
             {
-                  measurement= new USVolumeMeasurement(fraction, unit);
+                  measurement= new USCookingVolumeMeasurement(fraction, unit);
             }
            
             //get user-friendly version of converted measurement

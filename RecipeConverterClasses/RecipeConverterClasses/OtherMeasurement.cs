@@ -50,6 +50,8 @@ namespace RecipeConverterClasses
         /// <returns>ICollection containing this measurement</returns>
         public override ICollection<Measurement> UserFriendlyMeasurements()
         {
+            /* Amount does not need to be simplified here becuase it can be changed if compared to anything else. 
+            It is simplified when displayed (in the ToString and ToHTMLFormattedString) */
             ICollection<Measurement> convertedMeasurements = new List<Measurement>();
             convertedMeasurements.Add(Copy());
             return convertedMeasurements;
