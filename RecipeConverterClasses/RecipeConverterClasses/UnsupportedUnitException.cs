@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace RecipeConverterClasses
 {
+    /// <summary>
+    /// The UnsupportedUnitException is thrown when an invalid Unit is provided.
+    /// </summary>
 [Serializable] public class UnsupportedUnitException : ApplicationException
     {
         public UnsupportedUnitException() { }

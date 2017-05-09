@@ -59,7 +59,7 @@ namespace RecipeConverterClasses
         }
 
         /// <summary>
-        /// The GetMeasurementReplacement method replaces a measurement 
+        /// The GetMeasurementReplacement method replaces a measurement, given a Match
         /// </summary>
         /// <param name="match">Match of measurement</param>
         /// <returns>String of converted measurement</returns>
@@ -84,7 +84,7 @@ namespace RecipeConverterClasses
 
         /// <summary>
         /// Overloaded GetMeasurementReplacement method replaces the measurement
-        /// in the given text 
+        /// in the given text, given a Unit
         /// </summary>
         /// <param name="amount">String containing measurement amount</param>
         /// <param name="unit">Unit of measurement</param>
@@ -193,7 +193,8 @@ namespace RecipeConverterClasses
             {
                 return GetIntegerAsFraction(match);
             }
-            throw new ArgumentException("Provided string does not contain number.");
+            //if none of the Matches were successful, throw an ArgumentException
+            throw new ArgumentException("Argument does not contain number in supported format.");
 
         }
 
@@ -244,6 +245,11 @@ namespace RecipeConverterClasses
                 fraction = new RecipeFraction((int)numerator, (int)denominator);
                 
 
+            }
+            //if there was no decimal number in the match, throw an Exception
+            else
+            {
+                throw new ArgumentException("Argument does not contain decimal in supported format.");
             }
             return fraction;
 
@@ -364,7 +370,11 @@ namespace RecipeConverterClasses
             {
                 return new RecipeFraction(7, 8);
             }
-            else return null;
+            //if not a supported Unicode fraction, throw an Exception
+            else
+            {
+                throw new ArgumentException("Argument does not match accepted Unicode fractions.");
+            }
         }
     }
 }
