@@ -48,7 +48,7 @@ The clear button clears the four input fields and the returned recipe. The submi
         If no unit size is entered following the number, the number will not be converted. For example, if a recipe calls for “onions, 1-2,” no conversion occurs to the measurement. 
         <br />
         <br />
-        The scope of the recognized text is such that the calculations were performed properly on sample recipes from various blogs and recipe sites, including “Pinch of Yum,” “Overtime Cook,” “Joy of Kosher” and The Food Network website. 
+        The scope of the recognized text is such that the calculations were performed properly on sample recipes from various blogs and recipe sites, including “Pinch of Yum,” “Overtime Cook,” “Joy of Kosher” and Allrecipes.com. 
     </p>
 
     <h4 class="text-primary"><span id="compatibility" class="anchor">Compatibility</span></h4>
