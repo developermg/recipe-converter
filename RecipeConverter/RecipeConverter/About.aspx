@@ -2,14 +2,14 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %> the Recipe Converter</h2>
-    <a href="#background">Background</a>	
-&#8226;
-    <a href="#usage">Usage</a>	
-&#8226;
-    <a href="#scope">Scope</a>	
-&#8226;
-    <a href="#compatibility">Compatiblity</a>	
-&#8226;
+    <a href="#background">Background</a>
+    &#8226;
+    <a href="#usage">Usage</a>
+    &#8226;
+    <a href="#scope">Scope</a>
+    &#8226;
+    <a href="#compatibility">Compatiblity</a>
+    &#8226;
     <a href="#results">Results</a>
     <br />
     <h4 class="text-primary"><span id="background" class="anchor">Background</span></h4>
@@ -52,7 +52,7 @@ The clear button clears the four input fields and the returned recipe. The submi
     </p>
 
     <h4 class="text-primary"><span id="compatibility" class="anchor">Compatibility</span></h4>
-    <p>The recipe converter has been tested on and found compatible with recent versions of standard browsers: Microsoft Edge version 38, Internet Explorer 11, Chrome version 58, and Mozilla Firefox version 53.</p>
+    <p>The recipe converter has been tested on and found compatible with recent versions of standard browsers: Microsoft Edge version 38, Internet Explorer 11, Chrome version 58, Mozilla Firefox version 53, and Safari version 10.</p>
 
     <h4 class="text-primary"><span id="results" class="anchor">Results</span></h4>
     <p>The recipe title, if entered, and the servings size are displayed above the converted recipe. Because an ingredient line, or even multiple units of measurement for the same ingredient, can span multiple lines, a bullet point is displayed at the beginning of each new line.</p>
