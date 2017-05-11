@@ -8,7 +8,7 @@ body {
     top: auto;
 }
 
-/*Handle so when click link to anchor it does not get hidden by the navbar*/
+/*Adjust so when click link to anchor, anchor content does not get hidden by the navbar*/
 .anchor {
     padding-top: 65px;
     margin-top: -65px;
