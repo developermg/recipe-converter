@@ -11,8 +11,27 @@ namespace RecipeConverterClasses
     /// </summary>
     class OtherMeasurement : Measurement
     {
+        /// <summary>
+        /// 1-arg constructor
+        /// </summary>
+        /// <param name="fraction">Fraction part of measurement</param>
         public OtherMeasurement(RecipeFraction fraction) : base(fraction, Unit.OTHER)
         {
+        }
+
+        /// <summary>
+        /// 2-arg constructor
+        /// Even though Unit must be other, 2-arg constructor is provided to provide a constructor similar to that 
+        /// of other Measurements
+        /// </summary>
+        /// <param name="fraction"></param>
+        /// <param name="unit"></param>
+        public OtherMeasurement(RecipeFraction fraction, Unit unit) : base(fraction, unit)
+        {
+            if (unit != Unit.OTHER)
+            {
+                throw new UnsupportedUnitException("OtherMeasurement can only be constructed with Unit of type OTHER");
+            }
         }
 
         /// <summary>
